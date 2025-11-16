@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Regras da Lotus</title>
+
+  <!-- Ícone da aba -->
+  <link rel="icon" type="image/png" href="Logo.pm.png" />
+  <link rel="shortcut icon" href="Logo.pm.png" type="image/x-icon">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="painel.css" />
+
+  <!-- ======== BARRA DE PESQUISA NO TOPO ======== -->
+<div class="top-search">
+  <input type="text" id="searchInput" placeholder="Pesquisar..." onkeyup="searchSite()">
+</div>
+
+  <style>
+    /* Deixa as sub-abas menores */
+    .subtabs {
+      display: none;
+      flex-direction: column;
+      gap: 4px;
+      margin-left: 12px;
+      margin-top: 6px;
+    }
+
+    .subtabs.open {
+      display: flex;
+    }
+
+    .sidebar-tab {
+      width: 170px; /* <-- Aqui ajusta a largura das sub-abas */
+      background: rgb(2, 27, 255);
+      border: 1px solid #020202;
+      color: #030303;
+      font-size: 13px;
+      font-weight: 600;
+      text-align: left;
+      padding: 6px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .sidebar-tab:hover {
+      background: #001fce;
+      color: #000;
+      transform: scale(1.05);
+      box-shadow: 0 0 10px #001fce;
+    }
+
+    .sidebar-tab.active {
+      background: #001fce;
+      color: #000;
+      box-shadow: 0 0 10px #001fce;
+    }
+
+    .main-tab {
+      width: 190px; /* abas principais ligeiramente mais largas */
+      font-size: 14px;
+      font-weight: bold;
+      color: #fff;
+      background: linear-gradient(90deg, #1a1a1a, #000);
+      border: 1px solid #001fce;
+      border-radius: 8px;
+      padding: 8px 12px;
+      text-align: left;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: 0.3s;
+    }
+
+    .main-tab:hover {
+      background: #001fce;
+      color: #000;
+      transform: scale(1.05);
+    }
+
+    .sidebar {
+      position: fixed;
+      top: 180px; /* fica mais abaixo da logo */
+      left: 40px; /* um pouco afastada da borda */
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 100;
+    }
+
+    /* Evita rolagem lateral */
+    body {
+      overflow-x: hidden;
+    }
+
+    /* Logo 3D girando */
+    .corner-img {
+      position: fixed;
+      top: 50px;
+      left: 30px;
+      width: 160px;
+      transform-style: preserve-3d;
+      animation: rotate3D 6s linear infinite;
+    }
+
+    @keyframes rotate3D {
+      from { transform: rotateY(0deg); }
+      to { transform: rotateY(360deg); }
+    }
+  </style>
+</head>
+<body class="readonly">
+  
+  <!-- Logo 3D girando -->
+  <img src="Lotus.pm.png" alt="Logo do Servidor" class="corner-img" />
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar" aria-label="Navegação de regras">
+    <button class="main-tab" id="main-tab-intro" aria-expanded="false">📜 Introdução</button>
+  
+
+    <button class="main-tab" id="main-tab-cidade" aria-expanded="false" aria-controls="subtabs-cidade">👮 Policia ▲</button>
+    <div class="subtabs" id="subtabs-cidade" role="menu" aria-hidden="true"></div>
+
+    <!-- Botão que mostra a imagem -->
+<button class="main-tab" id="main-tab-codigos" aria-expanded="false" aria-controls="subtabs-codigos">
+📞 Códigos de Patrulha
+</button>
+
+<!-- Sub-aba contendo apenas a imagem -->
+<div class="subtabs" id="subtabs-codigos" role="menu" aria-hidden="true">
+    <button id="abrirImagem" class="open-image-btn">Mostrar Tabela</button>
+</div>
+
+<!-- MODAL DA IMAGEM GRANDE -->
+<div id="modalImagem" class="modal">
+    <span class="fechar">&times;</span>
+    <img class="modal-conteudo" src="tabela.pm.png" id="imagemAmpliada">
+</div>
+
+
+    
+     
+  </aside>
+
+    <!-- CONTEÚDO -->
+    <div class="container">
+      <header>
+        <div class="logo">👮</div>
+        <div>
+          <h1>Bem-vindo ao Servidor!</h1>
+          <p class="subtitle">Leia atentasadmente antes de participar</p>
+        </div>
+      </header>
+
+
+       <!-- 1 CARD PARA INTRODUÇÃO -->
+      <div class="card">
+        <div class="tab-content" id="tab-content-intro"></div>
+      </div>
+
+
+  <!-- 10 CARDS PARA ROLEPLAY -->
+      <div id="cards-regras-gerais" style="display: none;">
+        <div class="card"><div class="tab-content"><h2>Regras Gerais</h2><p></p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É proibido se passar por policial na cidade.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Só é permitida a apreensão caso ultrapasse a quantidade de 350 itens de farme.</p>Só pode ser apreendidos em: Estradas e Rodovias.</div>Proibido apreender farme na área de Sandy Shores.</div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Proibido utilizar vestimentas de quaisquer tipos de polícias da cidade.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Só é permitido algemar alguem que está: Parado ou caído no chão.Proibido algemar em movimento, trocação de tiro, corrida e etc</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Proibido furto e roubo de qualquer veículo policial, não é permitido pegar nenhum veículo policial mesmo que esteja destrancado, caso ocorra o policial tem permissão para abater o indivíduo.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p></p>Não atrapalhe a interação do policial com outros jogadores.</div></div>
+        <div class="card"><div class="tab-content"><h2</h2><p>Não entre em áreas restritas da polícia sem permissão de algum policial.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Qualquer policial fica proibido de abordar, revistar, prender ou matar alguém sem que tenha motivos válidos para tais atos.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Qualquer policial fica proibido de forjar falsas denúncias ou provas para que possa abordar, revistar, prender ou matar alguém.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É proibido qualquer policial pegar para si ou desviar itens da polícia ou looteado de players, baú de casas ou veículos.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Totalmente proibido sair da polícia e levar consigo armamentos e equipamentos policiais, devolva tudo antes de sair da polícia.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Todos os policiais devem prezar ao máximo pela fuga limpa, seja ela a pé ou motorizada.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p></p>Todos os policiais devem ter amor à vida independente da situação.</div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p></p>Todo policial deve sair de serviço sempre que for deixar a cidade ou ir fazer outra coisa que não envolva os serviços policiais. É proibido “farmar” salário da polícia.</div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p></p>Todos os policiais são proibidos de fazer RP de miliciano/ilegal.</div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p></p>Proibido policiais do sexo oposto ao abordado fazerem a revista, na ausência de um(a) policial do mesmo sexo, o(a) policial está autorizado(a) a revistar o(a) mesmo(a) (Obs: A revista deve ser feita com a caixinha seguindo todo o protocolo).</div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Todos os policiais envolvidos em ações de resgate devem prezar ao máximo a vida de todos os reféns.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>A PRF patrulha especificamente as rodovias do norte.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Todas polícias dentre os horário das 23h até as 12h (meio dia) podem patrulhar por ambas regiões da nossa cidade (norte e sul).</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Fica a critério dos Responsáveis da Polícia, a liberação do patrulhamento fora do horário acima em dias e horários específicos.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Após se iniciar a condução, estando o detido dentro da viatura com destino a Delegacia ou já estando dentro da cela, caso o mesmo, deslogue/desconecte (CL/Combat Logging) do servidor durante o processo de prisão, os policiais poderão realizar a prisão do indivíduo de imediato com pena máxima de 180 meses. Essa prisão é permitida somente se o policial tiver prova em clipe/vídeo do ocorrido, esse vídeo deve ser anexado no relatório da prisão no Discord da polícia.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Os policiais NÃO podem levar os bandidos desmaiados para o hospital com a intenção de que sejam reanimados e presos, a reanimação só pode ocorrer no local da ação. Salvo em casos de socorro ou um abate por engano.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Caso seja reanimado por um bombeiro durante uma ação é proibido continuar participando da mesma.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É proibido a polícia patrulhar (realizar abordagens) com viaturas descaracterizadas.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Em acompanhamentos/perseguições só é permitido o uso de 01 (um) helicóptero da polícia. Helicóptero da polícia pode ser utilizado para conduzir presos e realizar abordagens em outras aeronaves e veículos.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>A polícia é proibida de marcar os BLIPs de Farm do ilegal, isso será considerado Metagaming (caso seja provado o Metagaming policial, os mesmos sofrerão as devidas punições).</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Durante um acompanhamento, perseguição ou fuga policial, caso algum cidadão comece a forçar RP com a polícia (xingar, bater, etc) a polícia está liberada a aplicar código 5.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É proibido forçar RP com a polícia propositalmente.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>A polícia tem permissão para neutralizar/abater pessoas que começam a lootear/revistar os corpos dos bandidos mortos na ação.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É proibido fazer denúncias/chamados fakes para a polícia.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Em uma revista policial, caso o revistado esteja com quantidade de até 350 itens de farm, não será considerado “contrabando”/crime, em quantidades superiores a esta os itens serão apreendidos e o indivíduo responderá por contrabando.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Os policiais em serviço são proibidos de participar de quaisquer ações estando em veículos não policiais (pessoais ou de terceiros).</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É proibido falta de conduta como: Desrespeito, abuso de bug, abuso de poder, quebra de normas policiais, etc. Os policiais que faltarem com a conduta esperada ficarão sujeitos a punições de seus comandos e da equipe de Responsáveis policia.</p></div></div>
+      </div>
+
+      <!-- 10 CARDS PARA BÁSICAS -->
+      <div id="cards-instruções-de-abordagem" style="display: none;">
+        <div class="card"><div class="tab-content"><h2>Instruções de Abordagem</h2><p></p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Sempre trate todos os civis com respeito, independente do indivíduo ou do crime cometido pelo mesmo.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Caso o cidadão não te respeite e te desacate, tente se controlar e manter a ordem no local e/ou encaminhe-o ao DP.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Sempre avise a Central durante um deslocamento para uma ocorrência.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Só é autorizado a revista do cidadão e do veículo do mesmo, caso você tenha recebido uma denúncia ou suspeita concreta.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É proibido forçar rp para abordar e revistar alguém.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Se você encontrar algo ilegal na posse do abordado ou então perceber que o cidadão oferece risco a vida de alguém, algeme-o e explique o motivo disso.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Todo e qualquer cidadão é obrigado a aceitar a revista policial, assim como também é obrigado a aceitar a revista do veículo durante uma abordagem policial.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Caso a pessoa revistada seja uma mulher e não tenha nenhuma policial feminina (fox) para revista-la no momento, deve ser seguido o RP da caixinha, onde o policial pega uma caixa e assim a mulher revistada tem a obrigação de seguir o RP aceitando a revista.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É obrigatório durante uma abordagem policial que a Lei de Miranda seja lida antes da chegada ao departamento policial, caso não feita o suspeito deverá ser liberado.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Proibida a utilização de blindados em ações.</p></div></div>
+      </div>
+
+      <!-- 10 CARDS PARA ÁREAS ZONAS -->
+      <div id="cards-tipos-de-abordagem" style="display: none;">
+        <div class="card"><div class="tab-content"><h2>Tipos de Abordagem</h2><p></p></div></div>
+        <div class="card"><div class="tab-content"><h2>Abordagem de rotina</h2><p>Consiste em abordar um cidadão de forma educada no qual não se há qualquer suspeita sobre o mesmo, você irá apenas pedir seu RG, a revista deve acontecer somente caso perceba que o mesmo apresentou uma reação fora do normal, caso tenha irregularidade o conduza à DP, caso não, prossiga com a patrulha.</p></div></div>
+        <div class="card"><div class="tab-content"><h2>Abordagem de suspeita/risco</h2><p>Consiste em abordar um cidadão que está cometendo ações suspeitas, como correr ao ver a viatura, mudar totalmente o caminho que estava indo após ter te avistado, ainda assim deverá ser educado pois não sabe o que realmente ocasionou para o cidadão agir de forma estranha, o P1 deve fazer a segurança mirando no suspeito, porém só o algeme caso encontre algum item ilegal com o mesmo, caso tenha irregularidade o conduza à DP, caso não prossiga com o patrulhamento.</p></div></div>
+        <div class="card"><div class="tab-content"><h2>Abordagem de denúncia</h2><p>Consiste em ser mais firme visto que já tem informações sobre o cidadão denunciado, tenha cuidado pois não sabe com quem está lidando de fato, sempre mantenha a atenção e o controle da abordagem, algeme o suspeito antes de quaisquer averiguações para sua segurança e proceda de forma rápida para evitar incursões de outros meliantes.</p></div></div>
+        <div class="card"><div class="tab-content"><h2>🔔 Baixo risco</h2><p>Consiste em um acompanhamento, onde o suspeito não oferece nenhum risco a corporação e aos demais civis.</p></div></div>
+        <div class="card"><div class="tab-content"><h2>⚠️ Médio risco</h2><p>A partir do momento em que as viaturas já sofreram algum tipo de ameaça e o suspeito realizou manobras arriscadas.</p></div></div>
+        <div class="card"><div class="tab-content"><h2>🚨 Alto risco</h2><p>A partir do momento em que os meliantes realizam disparos contra a corporação ou atropele algum cidadão de bem.</p></div></div>
+      </div>
+
+      <!-- 10 CARDS PARA VEÍCULOS -->
+      <div id="cards-investigações" style="display: none;">
+        <div class="card"><div class="tab-content"><h2>Investigações</h2><p></p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Proibido camperar farm, salvo se existirem motivos legais para a investigação que devem estar anexados no inquérito policial supervisionado pelo Delegado Geral.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>As provas devem ser apresentadas para os responsáveis pela polícia para dar continuidade aos trâmites.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Os interrogatórios são realizados por policiais com o intuito de coletar informações. É proibido matar o interrogado, fazer “queima de arquivos” após o interrogado contribuir ou dar as informações solicitadas pelos policiais.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Apenas serão aceitas provas dentro do RP.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>A identidade dos policiais da polícia judiciária é totalmente sigilosa.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É proibida a corrupção e vazamento de informações privadas da polícia.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p> A polícia tem permissão para investigar pessoas que praticam apologia ao crime como: postar fotos com armas, fotos de pessoas mortas ou algo que influencie práticas criminosas.</p>A polícia também tem permissão para investigar pessoas que anunciam produtos ilegais/ilícitos no Instagram, OLX, Twitter, Tinder.</div>Durante a investigação, caso o RP seja levado para uma área de safezone (por parte do suspeito), a investigação/apreensão poderá ser continuada/concluída normalmente.</div>
+        <div class="card"><div class="tab-content"><h2></h2><p>As policiais podem fazer investigações em conjunto.</p></div></div>
+        
+      </div>
+
+      <!-- 10 CARDS PARA CHAT APPS -->
+      <div id="cards-rondas-ostensivas" style="display: none;">
+        <div class="card"><div class="tab-content"><h2>Rondas Ostensivas</h2><p></p></div></div>
+       <div class="card"><div class="tab-content"><h2></h2><p>Ronda ostensiva é uma patrulha realizada por policiais com o objetivo de prevenir e inibir a prática de crimes em uma determinada área ou locais onde há grande circulação de pessoas.</p>Durante a ronda ostensiva, os policiais fazem o policiamento preventivo, ou seja, procuram identificar comportamentos suspeitos, abordam pessoas que possam estar praticando atividades criminosas e realizam ações de controle e fiscalização. </div>O objetivo da ronda ostensiva é aumentar a segurança da população e prevenir a ocorrência de crimes.</div>
+      <div class="card">
+    <div class="tab-content">
+
+        <h2>Regras R.O</h2>
+
+        <p>Nenhum RESP Polícia ou Ilegal podem interferir nos R.O.</p>
+        <p>Responsabilidade total dos comandos...</p>
+        <p>Obrigatório publicar no Discord antes de efetuar o R.O.</p>
+        <p>Caso seja aprovado incorretamente, haverá punição.</p>
+        <p>A polícia tem até 24h para fazer um R.O.</p>
+        <p>Limite de 1 R.O a cada 3 dias na mesma facção.</p>
+
+    </div>
+</div>
+       <div class="card"><div class="tab-content">Critérios usados para avaliar se um R.O é valido a ser aprovado<h2></h2>8 QRUs de Disparo por arma de fogo na facção.<p>Uniformizado com arma de fogo em frente a facção.</p>Fuga para a facção.</div>Atirar de dentro para fora da facção.</div>
+       <div class="card"><div class="tab-content"><h2></h2><p>Rondas ostensivas podem ser realizadas em favelas e organizações.</p></div></div>
+       <div class="card"><div class="tab-content"><h2></h2><p>A polícia é obrigada a anunciar o R.O (Ronda ostensiva) 5 minutos antes.</p></div></div>
+       <div class="card"><div class="tab-content"><h2></h2><p>É proibido manter trancados ou trancar os portões da favela ao se iniciar o R.O.</p></div></div>
+       <div class="card"><div class="tab-content"><h2></h2><p>Limite máximo 5 rondas ostensivas por semana para cada policia.</p></div></div>
+       <div class="card"><div class="tab-content"><h2></h2><p>Mínimo de 10 policiais para iniciar o R.O.</p></div></div>
+       <div class="card"><div class="tab-content"><h2></h2><p>Em R.O é permitido apenas 1 helicóptero policial.</p></div></div>
+       <div class="card"><div class="tab-content"><h2></h2><p>Durante o R.O, caso qualquer policial ou bandido mate alguém que não estava envolvido na ação, será considerado RDM.</p></div></div>
+       <div class="card"><div class="tab-content"><h2></h2><p>Em qualquer momento que se iniciar uma trocação de tiro no meio do R.O, o mesmo automaticamente se tornará uma incursão e a polícia terá autorização para solicitar QRR.</p>Após 1:00h de ação, o maior contingente terá que rushar até finalizar a ação.</div></div>
+       <div class="card"><div class="tab-content"><h2></h2><p>É proibido voltar para a mesma ação após morrer.</p></div></div>
+       <div class="card"><div class="tab-content"><h2></h2><p>Durante o R.O a polícia deve tratar todos com respeito e somente descer das viaturas caso veja atitudes suspeitas, caso nada seja encontrado a mesma deve dar QTA do local.</p></div></div>
+    </div>
+
+      <!-- 10 CARDS PARA EMPREGOS LEGAIS -->
+      <div id="cards-incursão" style="display: none;">
+        <div class="card"><div class="tab-content"><h2>Incursão</p></div></div>
+        <div class="card">
+    <div class="tab-content">
+        <p>Incursão policial é uma operação de busca e apreensão, em que os policiais invadem um local suspeito de abrigar atividades criminosas e realizam a prisão dos envolvidos. </p>
+        <p>urante a incursão, os policiais podem enfrentar resistência armada dos suspeitos, o que torna a operação mais arriscada e complexa do que uma ronda ostensiva.</p>
+        <p>Em resumo, a incursão policial é uma operação de busca e apreensão, com o objetivo de prender suspeitos e apreender objetos ilícitos. </p>
+        <p>Em situações onde ocorra troca de tiros com os criminosos, o objetivo dos policiais passa a ser a neutralização dos mesmos.</p>
+
+    </div>
+</div>
+        <div class="card"><div class="tab-content"><h2>São motivos válidos para incursão</h2><p></p></div></div>
+        <div class="card"><div class="tab-content">A polícia avistar alguém armado no QG/favela.<h2></h2>Policiais serem alvejados ao passar próximos de favelas/QG’s por pessoas que estão nas favelas/QG’s.<p>Se iniciar uma trocação de tiros durante o R.O.</p>Durante uma perseguição/fuga, o fugitivo se refugiar dentro da favela/QG.</div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É obrigatório que tenha motivos válidos juntamente com provas para que seja iniciada uma incursão. Essas provas devem ser enviadas no canal designado no Discord policial, para que a incursão seja realizada (salvo nos casos em que um R.O se torne uma incursão).</p>O prazo máximo para a divulgação das provas no canal designado é de até 2 horas após o encerramento da incursão.</div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Durante uma incursão policial, os criminosos são proibidos de deixar portões e portas internas e externas trancadas.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Ao iniciar a incursão, os integrantes da favela não podem guardar seus itens em nenhum tipo de baú ou passar para outra pessoa.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Durante a incursão a polícia sempre rushará.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É proibido voltar para a mesma ação após morrer.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>QRU de disparo não é motivo para incursão policial.</p>A polícia pode juntar provas de QRU de disparos de uma FAC/ORG como uma das 7 provas necessárias para uma possível “PACIFICAÇÃO", sendo necessários: 3 PRINT's de QRU de disparo dentro da FAC/ORG para se tornar uma das 7 provas.</div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>As provas para a incursão são válidas por até 24h após o ocorrido, caso ultrapasse esse limite, não serão mais provas válidas para incursionar.</p></div></div>
+      
+    </div>
+
+      <!-- 10 CARDS PARA BOM SENSO -->
+      <div id="cards-pacificação" style="display: none;">
+        <div class="card"><div class="tab-content"><h2>Pacificação</h2><p></p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Para que a pacificação ocorra é necessário um trabalho investigativo da polícia, elaborando um mandado de pacificação que deverá ser aprovado pelo Comando Geral e pelos Responsáveis Polícia e Ilegal.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Para que o mandado seja aprovado é necessário ter 8 provas obrigatórias ou 7 provas obrigatórias + 2 provas não obrigatórias, sendo elas:</p></div></div>
+<div class="card">
+    <div class="tab-content">
+        <p>Fotos da localização do baú da FAC/ORG;</p>
+        <p>Fotos da bancada da FAC/ORG;</p>
+        <p>Gravação dos investigados dizendo que fazem assalto/sequestro/ação;</p>
+        <p>Gravação dos investigados dizendo o que vendem;</p>
+        <p>Rota de FARM dos investigados (não obrigatória);</p>
+        <p>Características deles, mochila cor da roupa etc;</p>
+        <p>Nome dos líderes e se possível conseguir o passaporte de ambos;</p>
+        <p>Fotos dos líderes da FAC/ORG; (não obrigatória)</p>
+        <p>3 Fotos de QRU de disparo no interior da localidade (não obrigatória);</p>
+        <p>Gravação comprando com um membro da FAC/ORG algo fabricado por eles;</p>
+        <p>Gravação dos indivíduos praticando assalto/sequestro/ação (não obrigatória);</p>
+        <p>Mapeamento do local (360º da área comum a ser pacificada);</p>
+
+    </div>
+</div>
+        <div class="card"><div class="tab-content"><h2></h2><p>O aviso de pacificação deve ser feito no mínimo com 24 horas de antecedência.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>O contingente máximo permitido na pacificação é de 30 defensores (bandidos) e 40 policiais. O mínimo permitido é de 15 defensores (bandidos) e 25 policiais.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Dependendo do QG/Favela a quantidade pode ser revista pela equipe da staff. Caso o ilegal não tenha o contingente mínimo necessário será vitória da polícia por W.O.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Limite de armamento na mochila: 1 colete extra, 5 bandagens e 7 drogas ou energéticos.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Os bandidos terão que informar o contingente que irá participar da pacificação com 06 horas de antecedência ao responsável ilegal, que informará a polícia logo em seguida. A polícia deverá ser informada pelo responsável ilegal até 02 horas antes da pacificação, caso não seja informada, irá com contingente máximo de (40) policiais na ação.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>A tolerância máxima de atraso permitida é de 20 minutos tanto para o ilegal quanto para a policia. O lado que estourar o tempo perderá por W.O. OBS: Quando a polícia sair da DP em comboio não é mais considerado atraso.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Proibido retirada de itens e dinheiro dos baús, “painelfac” e "craft" após o aviso de pacificação.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Proibido uso de binds de animação ou /me (mensagens de texto em caixa alta e colorido).</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Os bandidos são proibidos de ficar fora da área vermelha da FAC/ORG no momento da pacificação.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Os bandidos são proibidos de deixar portões e portas internas e externas trancadas.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Permitido apenas 1 helicóptero da facção/organização (os jogadores que estiverem no helicóptero contam como defensores). Podendo sobrevoar até 1 quarteirão do local.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Os bandidos são proibidos de pousar o helicóptero fora da área vermelha demarcada.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Permitido apenas 1 helicóptero da polícia (os policiais que estiverem no helicóptero contam como pacificadores).</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Proibido tanto para polícia quanto para o ilegal reparar ou substituir helicópteros após o FF.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Após 30 minutos de ação, o maior contingente terá que rushar e o rush será revezado entre bandidos e polícia a cada 5 minutos. Caso o maior contingente não rushe dentro dos 10 minutos a vitória será do adversário.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É proibido voltar para a pacificação após morrer. Quem estiver nas proximidades querendo "assistir" será enviado para a garagem mais próxima, se persistir, receberá prisão staff.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>A pacificação poderá ser pausada a qualquer momento desde que ambos Responsáveis Policia e Ilegal estejam de acordo. Ex: Ataque de hack, bugs em geral, entre outros. Após o término da pausa, se ficar constatado que alguém trocou de posição, poderá ser dado vitória do lado contrário de quem violou a regra.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Se o jogador crashar ele não poderá voltar para a pacificação. O mesmo deve subir call suporte e procurar os responsáveis para ser retirado imediatamente da ação - passível de advertência.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>O prazo para reportar/reclamar algum tipo de problema ou abuso de bug são de 2 horas após o término da pacificação. Esgotado esse prazo será oficialmente decretada vitória para um dos lados e as premiações serão pagas.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Caso fique comprovado que houve abuso de bug por parte dos vencedores, a final poderá ser anulada e a vitória concedida ao lado contrário apos análise conjunta dos Responsáveis Ilegal e Polícia.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>A favela/qg que será pacificada, ficará por 24h bloqueada de vender itens ilegais, só é permitido o farm na quantia da regra.</p></div></div>
+      </div>
+
+      <!-- 10 CARDS PARA ANTI-RP -->
+      <div id="cards-ações-de-fuga" style="display: none;">
+      <div class="card"><div class="tab-content"><h2>Ações de Fuga</h2><p></p></div></div>
+      <div class="card"><div class="tab-content"><h2></h2><p>A polícia só pode aplicar o código 03 (tiros na lataria/pneus do veículo para danificar o motor) após 3 minutos de fuga limpa.</p></div></div>
+      <div class="card"><div class="tab-content"><h2></h2><p>Em casos onde o bandido esteja fugindo da polícia e seja constatado pelos policiais que o bandido pediu QRR/Reforço, a polícia tem autorização para abater os bandidos/fugitivos envolvidos.</p></div></div>
+      <div class="card"><div class="tab-content"><h2></h2><p>Para neutralizar os fugitivos que pediram QRR, os policiais devem possuir provas suficientes para que não sofram punições por RDM.</p></div></div>
+      <div class="card"><div class="tab-content"><h2></h2><p>Durante uma fuga/perseguição policial, caso ocorra Power-Gaming “proposital” por parte do fugitivo, os policiais podem liberar o código 5 (atirar para matar) contra os infratores.</p></div></div>
+      <div class="card"><div class="tab-content"><h2></h2><p>Proibido dar ratão (usar seu veículo para bater no veículo de quem você está perseguindo/fugindo).</p></div></div>
+      <div class="card"><div class="tab-content"><h2></h2><p>Durante uma fuga, é proibido reduzir a velocidade do veículo propositalmente para ser atingido pelo veículo que você está fugindo ou perseguindo.</p></div></div>
+      <div class="card"><div class="tab-content"><h2></h2><p>É permitido o uso de no máximo 1 helicóptero VIP em ação de fuga, porém deve seguir as seguintes sub-regras:</p></div></div>
+      <div class="card"><div class="tab-content"><h2></h2><p>É proibido iniciar/planejar a fuga já com o helicóptero.</p></div></div>
+      <div class="card"><div class="tab-content"><h2></h2><p>Assim que se inicia uma ação de fuga policial (fulga convencional em solo), o bandido que estiver fugindo pode solicitar apoio aéreo para um companheiro de facção/organização. </p></div></div>
+      <div class="card"><div class="tab-content"><h2></h2><p>Este companheiro com o helicóptero deve aguardar o fugitivo em um local marcado, o fugitivo deve se direcionar ao local marcado e chegando lá, deverá abandonar o veículo em que praticou a fuga inicialmente e deverá dar início à fuga com helicóptero.</p></div></div>
+      <div class="card"><div class="tab-content"><h2></h2><p>Ao optar por este tipo de fuga, o bandido é proibido de solicitar QRR para PVP e também é proibido de cometer o desce e quebra. Este tipo de fuga deve ser totalmente limpo por parte do bandido.</p></div></div>
+      <div class="card"><div class="tab-content"><h2></h2><p>O helicóptero VIP é proibido de acompanhar a fuga do comparsa que ainda está dando fuga em solo.</p></div></div>
+      <div class="card"><div class="tab-content"><h2></h2><p>É proibido atirar de dentro do helicóptero VIP.</p></div></div>
+      <div class="card"><div class="tab-content"><h2></h2><p>A partir do momento em que o fugitivo inicia a fuga em solo, os policiais poderão solicitar reforço aéreo (G.O.A, G.A.M, D.O.A) para dar continuidade à perseguição caso o fugitivo consiga iniciar a fuga aérea.</p></div></div>
+      <div class="card"><div class="tab-content"><h2></h2><p>Em casos onde não tenham policiais do G.O.A, G.A.M ou D.O.A online na cidade, os policiais presentes na perseguição inicial poderão atirar na lataria do helicóptero dos fugitivos até que o mesmo comece a “fumaçar”.</p></div></div>
+      <div class="card"><div class="tab-content"><h2>ABORDAGEM AÉREA</h2><p>A abordagem aérea deverá iniciar com a ordem legal para que os suspeitos entrem na frequência de rádio solicitada e as instruções de pouso/abordagem serão passadas pela rádio.</p></div></div>
+      <div class="card"><div class="tab-content"><h2>ABORDAGEM AÉREA</h2><p>O helicóptero policial deverá sobrevoar próximo a aeronave suspeita e o A1 envia a mensagem no “T” para solicitar a entrada na frequência de rádio: “Atenção, esta é uma abordagem aérea entre na frequência de rádio “X” para que sejam passadas as instruções”.</p></div></div>
+      <div class="card"><div class="tab-content"><h2>ABORDAGEM AÉREA</h2><p></p>Se o indivíduo entrar na frequência e colaborar, é feita a abordagem em cod.1 Se o indivíduo não entrar na frequência ou entrar na frequência e não acatar as ordens, dar fuga do local ou etc, é iniciado o protocolo de avisos de alerta para pouso imediato com possível abate dos fugitivos.</div></div>
+      <div class="card"><div class="tab-content"><h2>ABORDAGEM AÉREA 🔔 Primeiro aviso</h2><p>/190 Atenção Helicóptero (coloração) próximo ao helicóptero policial!! Pouse imediatamente e saia com as mãos na cabeça ou será abatido!! Primeiro Aviso!!!”</p></div></div>
+      <div class="card"><div class="tab-content"><h2>ABORDAGEM AÉREA ⚠️ Segundo aviso</h2><p>Passados 2 minutos sem sucesso após o primeiro aviso, envie: “/190 Atenção Helicóptero (coloração) próximo ao helicóptero policial!! Pouse imediatamente e saia com as mãos na cabeça ou será abatido!!</p></div></div>
+      <div class="card"><div class="tab-content"><h2>ABORDAGEM AÉREA 🚨 Último aviso</h2><p>Após os dois avisos no canal 190 e após dois minutos do segundo aviso, deve-se então enviar um anúncio com o último aviso para o fugitivo: “/anuncio Atenção Helicóptero (coloração) próximo ao helicóptero policial!! Pouse imediatamente e saia com as mãos na cabeça ou será abatido!! Pouse imediatamente e saia com as mãos na cabeça ou será abatido!! ÚLTIMO AVISO!!!”. Após 1 minuto sem sucesso do último aviso, os policiais deverão abater os fugitivos.</p></div></div>
+      <div class="card"><div class="tab-content"><h2></h2><p>Durante uma perseguição/fuga policial ou fuga de outros bandidos, é proibido fugir para favelas, organizações, safezones e áreas de dominação, caso ocorra a polícia tem permissão de aplicar código 3.</p></div></div>
+      <div class="card"><div class="tab-content"><h2></h2><p>Durante uma perseguição/fuga, é proibido “rampar” a ponto de virar um “foguete” e continuar a perseguição/fuga.</p></div></div>
+      <div class="card"><div class="tab-content"><h2></h2><p>É proibido cair de lugares extremamente elevados usando veículos (ou a pé) e continuar a perseguição/fuga.</p></div></div>
+      <div class="card"><div class="tab-content"><h2></h2><p>A fuga é encerrada e dada como vencida pelo bandido a partir do momento em que o mesmo some da vista dos policiais por 2 ou mais minutos.</p></div></div>
+    </div>
+
+            <!-- FOOTER: COLOQUE APENAS UMA VEZ, AQUI -->
+      <footer>
+        <p>&copy; 2025 Servidor Lotus — Todos os direitos reservados.</p>
+        <div class="controls">
+          <a href="#" class="btn" onclick="window.print()">Imprimir Regras</a>
+        </div>
+      </footer>
+
+    </div> <!-- fecha .container -->
+
+  <!-- SCRIPT -->
+   
+  <script>
+  
+   const introducao = {
+      title: "Bem-vindo à Área Policial!",
+      text: `
+Bem-vindos ao Departamento de Polícia da LOTUS ROLEPLAY. Nosso compromisso é manter uma cidade segura, justa e respeitosa para todos. Valorizamos a diversidade e reforçamos que nenhum cidadão deve sofrer discriminação por sua origem, raça, etnia, religião, gênero, orientação sexual ou condição física. Qualquer atitude preconceituosa, como racismo, homofobia, transfobia, capacitismo ou qualquer forma de ódio, não será tolerada e resultará em banimento permanente. Trabalhamos para garantir um ambiente onde o respeito, a ordem e a igualdade prevaleçam. Contamos com cada um de vocês para manter nossa cidade segura, acolhedora e livre de intolerância.`
+    };
+
+    const regrasCidade = [
+      {title: "Regras Gerais", id: "regras-gerais"},
+      {title: "Instruções de Abordagem", id: "instruções-de-abordagem"},
+      {title: "Tipos de Abordagem", id: "tipos-de-abordagem"},
+      {title: "Investigações", id: "investigações"},
+      {title: "Rondas Ostensivas", id: "rondas-ostensivas"},
+      {title: "Incursão", id: "incursão"},
+      {title: "Pacificação", id: "pacificação"},
+      {title: "Ações de Fuga", id: "ações-de-fuga"}
+    ];
+
+    // ===== FUNÇÃO PARA CRIAR ABAS =====
+    function criarAbas(id, lista) {
+      const container = document.getElementById(id);
+      lista.forEach((r, i) => {
+        const btn = document.createElement("button");
+        btn.className = "sidebar-tab";
+        btn.textContent = `${i + 1}. ${r.title}`;
+        btn.onclick = () => mostrarCards(r.id);
+        container.appendChild(btn);
+      });
+    }
+
+    criarAbas("subtabs-cidade", regrasCidade);
+
+    // ===== FUNÇÃO PARA MOSTRAR 10 CARDS =====
+    function mostrarCards(tipo) {
+      // Esconde todos os divs de cards
+      document.querySelectorAll("[id^='cards-']").forEach(el => {
+        el.style.display = "none";
+      });
+
+      // Mostra o div correto
+      const cardsDiv = document.getElementById(`cards-${tipo}`);
+      if (cardsDiv) {
+        cardsDiv.style.display = "block";
+      }
+
+      // Marca o botão como ativo
+      document.querySelectorAll(".sidebar-tab").forEach(b => b.classList.remove("active"));
+      event.target.classList.add("active");
+    }
+
+    // ===== MOSTRAR INTRODUÇÃO POR PADRÃO =====
+    const cardIntro = document.getElementById("tab-content-intro");
+    if (cardIntro) {
+      cardIntro.innerHTML = `<h2>${introducao.title}</h2><p>${introducao.text}</p>`;
+      cardIntro.style.display = "block";
+    }
+
+    // ===== BOTÃO INTRODUÇÃO =====
+    document.getElementById("main-tab-intro").addEventListener("click", () => {
+      document.querySelectorAll("[id^='cards-']").forEach(el => {
+        el.style.display = "none";
+      });
+      cardIntro.style.display = "block";
+      document.querySelectorAll(".sidebar-tab").forEach(b => b.classList.remove("active"));
+    });
+
+    // ===== ABRIR/FECHAR MENUS =====
+    function abrirAba(btn, subtabsId) {
+      const subtabs = document.getElementById(subtabsId);
+      const aberto = subtabs.classList.toggle("open");
+      btn.innerText = aberto
+        ? btn.innerText.replace("▼", "▲")
+        : btn.innerText.replace("▲", "▼");
+    }
+
+    document.getElementById("main-tab-cidade").addEventListener("click", (e) => abrirAba(e.target, "subtabs-cidade"));
+
+ // ABRIR/FECHAR ABA DE CÓDIGOS DE PATRULHA
+document.getElementById("main-tab-codigos").addEventListener("click", function () {
+  const subtabs = document.getElementById("subtabs-codigos");
+  const aberto = subtabs.classList.toggle("open");
+
+  if (aberto) {
+    this.innerText = "📞 Códigos de Patrulha";
+  } else {
+    this.innerText = "📞 Códigos de Patrulha";
+  }
+});
+
+
+// MODAL DA IMAGEM GRANDE
+const modal = document.getElementById("modalImagem");
+const abrir = document.getElementById("abrirImagem");
+const fechar = document.querySelector(".fechar");
+
+// abrir imagem grande
+abrir.onclick = function() {
+  modal.style.display = "block";
+};
+
+// fechar imagem
+fechar.onclick = function() {
+  modal.style.display = "none";
+};
+
+// fechar clicando fora
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+};
+
+  </script>
+
+  <!-- BOTÕES DO TOPO DIREITO -->
+<div class="top-buttons">
+  <button class="top-btn green" onclick="window.location.href='index.html'">⚡ Inicio</button>
+  <button class="top-btn red" onclick="window.open('https://discord.gg/tUaZXmputE', '_blank')">🎧 Discord Cidade</button>
+  <button class="top-btn orange" onclick="window.open('https://discord.gg/qUNDk4Ep', '_blank')">🌐 Discord Ilegal</button>
+  <button class="top-btn orange" onclick="window.open('https://discord.gg/hpCgxmdx', '_blank')">🌐 Discord Policia</button>
+  <button class="top-btn green" onclick="window.location.href='painel.ilegal.html'">☠️ Regras Ilegal</button>
+  <button class="top-btn green" onclick="window.location.href='painel.html'">👮 Regras Policia</button>
+</div>
+<script src="menu.js"></script>
+
+
+</body>
+</html>

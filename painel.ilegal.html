@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Regras da Lotus</title>
+
+  <!-- Ícone da aba -->
+  <link rel="icon" type="image/png" href="Logo.ilegal.png" />
+  <link rel="shortcut icon" href="Logo.ilegal.png" type="image/x-icon">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="painel2.css" />
+
+  <!-- ======== BARRA DE PESQUISA NO TOPO ======== -->
+<div class="top-search">
+  <input type="text" id="searchInput" placeholder="Pesquisar..." onkeyup="searchSite()">
+</div>
+
+  <style>
+    /* Deixa as sub-abas menores */
+    .subtabs {
+      display: none;
+      flex-direction: column;
+      gap: 4px;
+      margin-left: 12px;
+      margin-top: 6px;
+    }
+
+    .subtabs.open {
+      display: flex;
+    }
+
+    .sidebar-tab {
+      width: 170px; /* <-- Aqui ajusta a largura das sub-abas */
+      background: rgb(255, 2, 2);
+      border: 1px solid #020202;
+      color: #030303;
+      font-size: 13px;
+      font-weight: 600;
+      text-align: left;
+      padding: 6px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .sidebar-tab:hover {
+      background: #ff0000;
+      color: #000;
+      transform: scale(1.05);
+      box-shadow: 0 0 10px #ff0000;
+    }
+
+    .sidebar-tab.active {
+      background: #ff0000;
+      color: #000;
+      box-shadow: 0 0 10px #ff0000;
+    }
+
+    .main-tab {
+      width: 190px; /* abas principais ligeiramente mais largas */
+      font-size: 14px;
+      font-weight: bold;
+      color: #fff;
+      background: linear-gradient(90deg, #1a1a1a, #000);
+      border: 1px solid #ff0000;
+      border-radius: 8px;
+      padding: 8px 12px;
+      text-align: left;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: 0.3s;
+    }
+
+    .main-tab:hover {
+      background: #ff0000;
+      color: #000;
+      transform: scale(1.05);
+    }
+
+    .sidebar {
+      position: fixed;
+      top: 180px; /* fica mais abaixo da logo */
+      left: 40px; /* um pouco afastada da borda */
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 100;
+    }
+
+    /* Evita rolagem lateral */
+    body {
+      overflow-x: hidden;
+    }
+
+    /* Logo 3D girando */
+    .corner-img {
+      position: fixed;
+      top: 30px;
+      left: 40px;
+      width: 130px;
+      transform-style: preserve-3d;
+      animation: rotate3D 6s linear infinite;
+    }
+
+    @keyframes rotate3D {
+      from { transform: rotateY(0deg); }
+      to { transform: rotateY(360deg); }
+    }
+  </style>
+</head>
+<body class="readonly">
+  
+  <!-- Logo 3D girando -->
+  <img src="Lotus.ilegal.png" alt="Logo do Servidor" class="corner-img" />
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar" aria-label="Navegação de regras">
+    <button class="main-tab" id="main-tab-intro" aria-expanded="false">📜 Introdução</button>
+  
+
+    <button class="main-tab" id="main-tab-cidade" aria-expanded="false" aria-controls="subtabs-cidade">💣 Dominação ▲</button>
+    <div class="subtabs" id="subtabs-cidade" role="menu" aria-hidden="true"></div>
+
+    <!-- Botão que mostra a imagem -->
+<button class="main-tab" id="main-tab-codigos" aria-expanded="false" aria-controls="subtabs-codigos">
+📞 Códigos de Patrulha
+</button>
+
+<!-- Sub-aba contendo apenas a imagem -->
+<div class="subtabs" id="subtabs-codigos" role="menu" aria-hidden="true">
+    <button id="abrirImagem" class="open-image-btn">Mostrar Tabela</button>
+</div>
+
+<!-- MODAL DA IMAGEM GRANDE -->
+<div id="modalImagem" class="modal">
+    <span class="fechar">&times;</span>
+    <img class="modal-conteudo" src="tabela.pm.png" id="imagemAmpliada">
+</div>
+
+
+    
+     
+  </aside>
+
+    <!-- CONTEÚDO -->
+    <div class="container">
+      <header>
+        <div class="logo">☠️</div>
+        <div>
+          <h1>Bem-vindo ao Servidor!</h1>
+          <p class="subtitle">Leia atentasadmente antes de participar</p>
+        </div>
+      </header>
+
+
+       <!-- 1 CARD PARA INTRODUÇÃO -->
+      <div class="card">
+        <div class="tab-content" id="tab-content-intro"></div>
+      </div>
+
+
+  <!-- 10 CARDS PARA ROLEPLAY -->
+      <div id="cards-básicas" style="display: none;">
+        <div class="card"><div class="tab-content"><h2>Básicas</h2><p></p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>As dominações têm regras rigorosas, como alianças entre facções do mesmo ramo e o uso de binds para vantagens. Além disso, veículos blindados e especiais são proibidos, e há várias outras regras que regulam o comportamento, a permanência na área e o retorno após a morte para manter o equilíbrio e a justiça no jogo.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É autorizado o ilegal utilizar mascara e necessário utilizar para evitar ações de investigação e de reconhecimento pós ações.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>🚨 Só é permitido entrar nas dominações de ramo após a mesma constar como DISPONIVEL, cor verde.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>⚠️ Só pode matar após a zona ser puxada.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>🚨 Não é permitido permanecer dentro da dominação esperando que outra facção inicie a ação.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Usar veículos para bater/derrubar outros veículos.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>O comando /cr só deve ser usado para desbugar o personagem. Qualquer uso malicioso que favoreça o jogador é proibido.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Ficar fora da dominação passando informações via rádio ou atirando para dentro da zona é proibido. (Caso isso aconteça, jogadores dentro da polyzone podem abater quem está fora.)</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Jogadores fora da dominação não podem atirar para dentro. Jogadores dentro da dominação só podem revidar caso sejam atacados por alguém de fora que esteja "marcando dominação".</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>A facção que dominou poderá permanecer na área até os últimos 5 minutos do cooldown.</p></div></div>
+        <div class="card"><div class="tab-content">A facção que dominou por último deve aguardar outra facção para puxar a dominação.<h2></h2><p>A facção que dominou por último não pode puxar duas vezes seguidas, exceto em caso de reset.</p>É obrigatório manter distância da dominação após conquistar a coroa, podendo permanecer apenas até a garagem mais próxima.</div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>⚠️ Após a dominação ser conquistada, todas as facções perdedoras devem sair imediatamente da polyzone.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Os uniformes exclusivos nas dominações são compostos somente pelas jaquetas, tanto para homens quanto para mulheres.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Jogadores mortos durante a dominação só podem retornar após 1 hora, mesmo que a dominação já esteja disponível.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Não é permitido prestar socorro (QRR) caso a ação tenha sido iniciada fora da polyzone da dominação.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>🚨 É terminantemente proibida a utilização de veículos blindados em qualquer dominação.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2>alerta<p></p>É proibido usar vassouras, trenós, motos voadoras ou qualquer veículo similar.</div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Permanecer dentro de veículos. Ficar dentro da água, helicópteros ou outros meios que dificultem o combate.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>🚨 Não é permitido sair do jogo dentro da dominação para relogar e obter vantagens.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Facções do mesmo ramo não podem formar parcerias em dominação. Membros de facções diferentes também não podem participar da mesma dominação juntos, mesmo que estejam se posicionando em facções distintas.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É proibido usar binds para vantagens como animações, desviar de balas, se esconder, cancelar animações, entre outros. Exceção: Binds como /revistar, /id, /carregar, etc., são permitidos.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Proibido dar voz de assalto em Helicópteros ou veículos voadores sejam quais forem.</p></div></div>
+      </div>
+
+      <!-- 10 CARDS PARA BÁSICAS -->
+      <div id="cards-uniforme" style="display: none;">
+        <div class="card"><div class="tab-content"><h2>Uniforme</h2><p></p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>O uniforme padrão é exclusivamente mochila, sem peças adicionais ou variações por cargo. Organizações com características no nome têm prioridade na escolha da mochila, e uniformes exclusivos permitem que a mochila se torne opcional. Para guerras, é possível ter um uniforme específico. Organizações com uniforme exclusivo podem optar por não usar mochila.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>O uniforme é peça de roupa da facção.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Não são permitidas peças adicionais no uniforme.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Não é permitido criar diferentes uniformes para cada cargo, com exceção para uniformes exclusivos.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É obrigatório o uso de mochila como uniforme padrão, com exceção para uniformes exclusivos.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Organizações com características relacionadas ao nome têm prioridade na escolha da mochila.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>O uso de roupas como uniforme é permitido apenas para organizações que adquiriram uniformes exclusivos, para quem usa uniforme exclusivo, o uso de mochila torna-se opcional.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É totalmente proibido criar roupas com qualquer logotipo de marcas existentes. ex: Chanel, Gucci, Louis Vuitton, Prada, Nike, Adidas e entre outras.</p></div></div>
+      </div>
+
+      <!-- 10 CARDS PARA ÁREAS ZONAS -->
+      <div id="cards-punições" style="display: none;">
+        <div class="card"><div class="tab-content"><h2>Punições</h2><p></p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Para evitar punições, é essencial seguir as regras de dominação e evitar infrações como erros, invasões e abusos. Respeitar as normas garante que sua facção não seja penalizada com multas e dias sem poder dominar.</p></div></div>
+        <div class="card"><div class="tab-content"><h2>Multa de aviso</h2>20% do dinheiro da facção (valor do banco de todos os membros + valor do painel da facção).<p>Aplicada para erros em pista, diversas denúncias, excesso de erros em geral e situações semelhantes.</p></div></div>
+        <div class="card"><div class="tab-content"><h2>Multa de invasão</h2>1 dia sem dominação.<p>30% do dinheiro da facção (valor do banco de todos os membros + valor do painel da facção).</p>Aplicada para invasões a territórios, bases ou locais restritos de outras facções.</div></div>
+        <div class="card"><div class="tab-content"><h2>Multa de dominação - Nivel 1</h2>1 dia sem dominação.<p>10% do dinheiro da facção (valor do banco de todos os membros + valor do painel da facção).</p>Aplicada quando erros em dominação afetam um número pequeno de participantes.</div></div>
+        <div class="card"><div class="tab-content"><h2>Multa de dominação - Nivel 2</h2>2 dias sem dominação.<p>20% do dinheiro da facção (valor do banco de todos os membros + valor do painel da facção).</p>Aplicada quando erros em dominação afetam um número significativo de participantes.</div></div>
+        <div class="card"><div class="tab-content"><h2>Multa de dominação - Nivel 3</h2><p>2 dias sem dominação.</p>30% do dinheiro da facção (valor do banco de todos os membros + valor do painel da facção).</div>Aplicada quando erros em dominação envolvem o uso abusivo de bugs ou exploits.</div>
+        <div class="card"><div class="tab-content"><h2>Punição após reincidente</h2>Adição de 1 dia na punição de dominação.<p>Adição de 5% de multa por punição já aplicada.</p>Aplicada quando a facção já foi punida previamente e comete outra infração.</div></div>
+
+      </div>
+
+      <!-- 10 CARDS PARA VEÍCULOS -->
+      <div id="cards-geral" style="display: none;">
+        <div class="card"><div class="tab-content"><h2>Geral</h2><p></p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Prestem atenção nas regras exclusivas de cada dominação para não sofrerem punições no jogo.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É permitida a participação de facções de todos os ramos.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>O uso de submarinos, helicópteros e veículos semelhantes é permitido.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>A dominação ocorre no seguinte horario: 21h30 e nos seguintes dias: DOMINGO | TERÇA | QUINTA</p></div></div>
+        
+      </div>
+
+      <!-- 10 CARDS PARA CHAT APPS -->
+      <div id="cards-pistola" style="display: none;">
+        <div class="card"><div class="tab-content"><h2>Pistola</h2><p></p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Prestem atenção nas regras exclusivas de cada dominação para não sofrerem punições no jogo.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É permitida a participação de facções de todos os ramos.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É proibido subir em contêineres, guindastes, prédios ou qualquer estrutura elevada.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>O uso de submarinos, helicópteros e veículos semelhantes é permitido.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É proibido marcar a entrada da dominação</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>A dominação fica disponível a partir das 21:00 e nos seguintes dias: SEGUNDA | QUARTA  | SEXTA</p></div></div>
+
+    </div>
+
+      <!-- 10 CARDS PARA EMPREGOS LEGAIS -->
+      <div id="cards-armas" style="display: none;">
+        <div class="card"><div class="tab-content"><h2>Armas</p></div></div>
+          <div class="card"><div class="tab-content"><h2></h2><p>Prestem atenção nas regras exclusivas de cada dominação para não sofrerem punições no jogo.</p></div></div>
+          <div class="card"><div class="tab-content"><h2></h2><p>Só é permitido matar após a zona ser puxada.</p></div></div>
+          <div class="card"><div class="tab-content"><h2></h2><p>Só é permitido entrar nas dominações de ramo após a mesma constar como DISPONIVEL, cor verde.</p></div></div>
+          <div class="card"><div class="tab-content"><h2></h2><p>A facção que tem a área dominada só pode entrar após ser puxada a dominação.</p></div></div>
+          <div class="card"><div class="tab-content"><h2></h2><p>Após a dominação ser finalizada, todas as facções perdedoras devem sair de imediatamente da polyzone.</p></div></div>
+          <div class="card"><div class="tab-content"><h2></h2><p>Trocação somente teti chão, incluindo o barco.</p></div></div>
+          <div class="card"><div class="tab-content"><h2></h2><p>Proibido matar de dentro pra fora ou fora pra dentro do dominas.</p></div></div>
+          <div class="card"><div class="tab-content"><h2></h2><p>Proibido blip ficar ou transitar em veículos, heli ou qualquer outro tipo.</p></div></div>
+          <div class="card"><div class="tab-content"><h2></h2><p>Proibido marcar entrada do dominas (facção que dominou por ultimo).</p></div></div>
+          <div class="card"><div class="tab-content"><h2></h2><p>Proibido qualquer tipo de blindado, seja carro ou heli.</p></div></div>
+    </div>
+
+      <!-- 10 CARDS PARA BOM SENSO -->
+      <div id="cards-munição" style="display: none;">
+        <div class="card"><div class="tab-content"><h2>Munição</h2><p></p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Prestem atenção nas regras exclusivas de cada dominação para não sofrerem punições no jogo.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Só é permitido matar após a zona ser puxada.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Só é permitido entrar nas dominações de ramo após a mesma constar como DISPONIVEL, cor verde.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>A facção que tem a área dominada só pode entrar após ser puxada a dominação.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Após a dominação ser finalizada, todas as facções perdedoras devem sair imediatamente da polyzone.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Trocação somente teti chão.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Proibido matar de dentro pra fora ou fora pra dentro do dominas.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Proibido blip ficar ou transitar em veículos, heli ou qualquer outro tipo.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Proibido marcar entrada do dominas (facção que dominou por ultimo).</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Proibido qualquer tipo de blindado, seja carro ou heli.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Proibido marcar / atirar de cima da ponte.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Proibido carro baú.</p></div></div> 
+      </div>
+
+      <!-- 10 CARDS PARA ANTI-RP -->
+      <div id="cards-lavagem" style="display: none;">
+      <div class="card"><div class="tab-content"><h2>Lavagem</h2><p></p></div></div>
+      <div class="card"><div class="tab-content"><h2></h2><p>Prestem atenção nas regras exclusivas de cada dominação para não sofrerem punições no jogo.</p></div></div>
+      <div class="card"><div class="tab-content"><h2></h2><p>Só é permitido matar após a zona ser puxada.</p></div></div>
+      <div class="card"><div class="tab-content"><h2></h2><p>Só é permitido entrar nas dominações de ramo após a mesma constar como DISPONIVEL, cor verde.</p></div></div>
+      <div class="card"><div class="tab-content"><h2></h2><p>A facção que tem a área dominada só pode entrar após ser puxada a dominação.</p></div></div>
+      <div class="card"><div class="tab-content"><h2></h2><p>Após a dominação ser finalizada, todas as facções perdedoras devem sair imediatamente da polyzone.</p></div></div>
+      <div class="card"><div class="tab-content"><h2></h2><p>Proibido matar de dentro pra fora ou fora pra dentro do dominas.</p></div></div>
+      <div class="card"><div class="tab-content"><h2></h2><p>Proibido marcar entrada do dominas (facção que dominou por ultimo).</p></div></div>
+      <div class="card"><div class="tab-content"><h2></h2><p>Proibido qualquer tipo de blindado, seja carro ou heli.</p></div></div>
+      <div class="card"><div class="tab-content"><h2></h2><p>Proibido blip sair do barco durante a dominação.</p></div></div>
+      <div class="card"><div class="tab-content"><h2></h2><p>Proibido carro baú.</p></div></div>
+    </div>
+
+     <!-- 10 CARDS PARA ANTI-RP -->
+      <div id="cards-drogas-desmanche" style="display: none;">
+      <div class="card"><div class="tab-content"><h2>Drogas - Desmanche</h2><p></p></div></div>
+      <div class="card"><div class="tab-content"><h2></h2><p>Prestem atenção nas regras exclusivas de cada dominação para não sofrerem punições no jogo.</p></div></div>
+      <div class="card"><div class="tab-content"><h2></h2><p>Liberado trocação no dominas assim que a zona ficar verde.</p></div></div>
+      <div class="card"><div class="tab-content"><h2></h2><p>A facção que tem a área dominada só pode entrar após ser puxada a dominação.</p></div></div>
+      <div class="card"><div class="tab-content"><h2></h2><p>Após a dominação ser finalizada, todas as facções perdedoras devem sair imediatamente da polyzone. (sem trocas de tiro).</p></div></div>
+      <div class="card"><div class="tab-content"><h2></h2><p>Proibido matar de dentro pra fora ou fora pra dentro do dominas.</p></div></div>
+      <div class="card"><div class="tab-content"><h2></h2><p>Proibido blip ficar ou transitar em veículos, heli ou qualquer outro tipo.</p></div></div>
+      <div class="card"><div class="tab-content"><h2></h2><p>Proibido marcar entrada do dominas (facção que dominou por ultimo)</p></div></div>
+      <div class="card"><div class="tab-content"><h2></h2><p>Proibido qualquer tipo de blindado, seja carro ou heli.</p></div></div>
+      <div class="card"><div class="tab-content"><h2></h2><p>Proibido carro baú.</p></div></div>
+      <div class="card"><div class="tab-content"><h2></h2><p>Proibido o Blip ficar na ilha durante a dominação.</p></div></div>
+    </div>
+
+
+            <!-- FOOTER: COLOQUE APENAS UMA VEZ, AQUI -->
+      <footer>
+        <p>&copy; 2025 Servidor Lotus — Todos os direitos reservados.</p>
+        <div class="controls">
+          <a href="#" class="btn" onclick="window.print()">Imprimir Regras</a>
+        </div>
+      </footer>
+
+    </div> <!-- fecha .container -->
+
+  <!-- SCRIPT -->
+   
+  <script>
+  
+   const introducao = {
+      title: "Bem-vindo à Área Policial!",
+      text: `
+Sejam bem-vindos à Lotus Roleplay, onde a cidade nunca dorme — e os ilegais que chegam também não. Aqui, cada um faz seu próprio caminho, seja pela sombra, pela força ou pela esperteza. A cidade é perigosa, cheia de oportunidades… mas só pra quem sabe jogar o jogo. Respeitem as regras do servidor e mantenham o RP limpo, porque quem vacilar, abusar ou quebrar o clima vai sair daqui mais rápido do que entrou. Mostrem do que são capazes, façam seu nome ecoar nas ruas e deixem claro por que vieram. A noite é de vocês — usem bem. 🔞`
+    };
+
+    const regrasCidade = [
+      {title: "Básicas", id: "básicas"},
+      {title: "Uniforme", id: "uniforme"},
+      {title: "Punições", id: "punições"},
+      {title: "Geral", id: "geral"},
+      {title: "Pistola", id: "pistola"},
+      {title: "Armas", id: "armas"},
+      {title: "Munição", id: "munição"},
+      {title: "Lavagem", id: "lavagem"},
+      {title: "Drogas Desmanche", id: "drogas-desmanche"}
+    ];
+
+    // ===== FUNÇÃO PARA CRIAR ABAS =====
+    function criarAbas(id, lista) {
+      const container = document.getElementById(id);
+      lista.forEach((r, i) => {
+        const btn = document.createElement("button");
+        btn.className = "sidebar-tab";
+        btn.textContent = `${i + 1}. ${r.title}`;
+        btn.onclick = () => mostrarCards(r.id);
+        container.appendChild(btn);
+      });
+    }
+
+    criarAbas("subtabs-cidade", regrasCidade);
+
+    // ===== FUNÇÃO PARA MOSTRAR 10 CARDS =====
+    function mostrarCards(tipo) {
+      // Esconde todos os divs de cards
+      document.querySelectorAll("[id^='cards-']").forEach(el => {
+        el.style.display = "none";
+      });
+
+      // Mostra o div correto
+      const cardsDiv = document.getElementById(`cards-${tipo}`);
+      if (cardsDiv) {
+        cardsDiv.style.display = "block";
+      }
+
+      // Marca o botão como ativo
+      document.querySelectorAll(".sidebar-tab").forEach(b => b.classList.remove("active"));
+      event.target.classList.add("active");
+    }
+
+    // ===== MOSTRAR INTRODUÇÃO POR PADRÃO =====
+    const cardIntro = document.getElementById("tab-content-intro");
+    if (cardIntro) {
+      cardIntro.innerHTML = `<h2>${introducao.title}</h2><p>${introducao.text}</p>`;
+      cardIntro.style.display = "block";
+    }
+
+    // ===== BOTÃO INTRODUÇÃO =====
+    document.getElementById("main-tab-intro").addEventListener("click", () => {
+      document.querySelectorAll("[id^='cards-']").forEach(el => {
+        el.style.display = "none";
+      });
+      cardIntro.style.display = "block";
+      document.querySelectorAll(".sidebar-tab").forEach(b => b.classList.remove("active"));
+    });
+
+    // ===== ABRIR/FECHAR MENUS =====
+    function abrirAba(btn, subtabsId) {
+      const subtabs = document.getElementById(subtabsId);
+      const aberto = subtabs.classList.toggle("open");
+      btn.innerText = aberto
+        ? btn.innerText.replace("▼", "▲")
+        : btn.innerText.replace("▲", "▼");
+    }
+
+    document.getElementById("main-tab-cidade").addEventListener("click", (e) => abrirAba(e.target, "subtabs-cidade"));
+
+ // ABRIR/FECHAR ABA DE CÓDIGOS DE PATRULHA
+document.getElementById("main-tab-codigos").addEventListener("click", function () {
+  const subtabs = document.getElementById("subtabs-codigos");
+  const aberto = subtabs.classList.toggle("open");
+
+  if (aberto) {
+    this.innerText = "📞 Códigos de Patrulha";
+  } else {
+    this.innerText = "📞 Códigos de Patrulha";
+  }
+});
+
+
+// MODAL DA IMAGEM GRANDE
+const modal = document.getElementById("modalImagem");
+const abrir = document.getElementById("abrirImagem");
+const fechar = document.querySelector(".fechar");
+
+// abrir imagem grande
+abrir.onclick = function() {
+  modal.style.display = "block";
+};
+
+// fechar imagem
+fechar.onclick = function() {
+  modal.style.display = "none";
+};
+
+// fechar clicando fora
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+};
+
+  </script>
+
+  <!-- BOTÕES DO TOPO DIREITO -->
+<div class="top-buttons">
+  <button class="top-btn green" onclick="window.location.href='index.html'">⚡ Inicio</button>
+  <button class="top-btn red" onclick="window.open('https://discord.gg/tUaZXmputE', '_blank')">🎧 Discord Cidade</button>
+  <button class="top-btn orange" onclick="window.open('https://discord.gg/qUNDk4Ep', '_blank')">🌐 Discord Ilegal</button>
+  <button class="top-btn orange" onclick="window.open('https://discord.gg/hpCgxmdx', '_blank')">🌐 Discord Policia</button>
+  <button class="top-btn green" onclick="window.location.href='painel.ilegal.html'">☠️ Regras Ilegal</button>
+  <button class="top-btn green" onclick="window.location.href='painel.html'">👮 Regras Policia</button>
+</div>
+<script src="menu.js"></script>
+
+
+</body>
+</html>

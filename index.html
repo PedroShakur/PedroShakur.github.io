@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Regras da Lotus</title>
+
+  <!-- Ícone da aba -->
+  <link rel="icon" type="image/png" href="LogoServidor.png" />
+  <link rel="shortcut icon" href="LogoServidor.png" type="image/x-icon">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="style-yellow.css" />
+
+  <!-- ======== BARRA DE PESQUISA NO TOPO ======== -->
+<div class="top-search">
+  <input type="text" id="searchInput" placeholder="Pesquisar..." onkeyup="searchSite()">
+</div>
+
+  <style>
+    /* Deixa as sub-abas menores */
+    .subtabs {
+      display: none;
+      flex-direction: column;
+      gap: 4px;
+      margin-left: 12px;
+      margin-top: 6px;
+    }
+
+    .subtabs.open {
+      display: flex;
+    }
+
+    .sidebar-tab {
+      width: 170px; /* <-- Aqui ajusta a largura das sub-abas */
+      background: rgb(255, 238, 2);
+      border: 1px solid #020202;
+      color: #030303;
+      font-size: 13px;
+      font-weight: 600;
+      text-align: left;
+      padding: 6px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .sidebar-tab:hover {
+      background: #f0b400;
+      color: #000;
+      transform: scale(1.05);
+      box-shadow: 0 0 10px #f0b400;
+    }
+
+    .sidebar-tab.active {
+      background: #f0b400;
+      color: #000;
+      box-shadow: 0 0 10px #f0b400;
+    }
+
+    .main-tab {
+      width: 190px; /* abas principais ligeiramente mais largas */
+      font-size: 14px;
+      font-weight: bold;
+      color: #fff;
+      background: linear-gradient(90deg, #1a1a1a, #000);
+      border: 1px solid #f0b400;
+      border-radius: 8px;
+      padding: 8px 12px;
+      text-align: left;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: 0.3s;
+    }
+
+    .main-tab:hover {
+      background: #f0b400;
+      color: #000;
+      transform: scale(1.05);
+    }
+
+    .sidebar {
+      position: fixed;
+      top: 180px; /* fica mais abaixo da logo */
+      left: 40px; /* um pouco afastada da borda */
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 100;
+    }
+
+    /* Evita rolagem lateral */
+    body {
+      overflow-x: hidden;
+    }
+
+    /* Logo 3D girando */
+    .corner-img {
+      position: fixed;
+      top: 30px;
+      left: 40px;
+      width: 130px;
+      transform-style: preserve-3d;
+      animation: rotate3D 6s linear infinite;
+    }
+
+    @keyframes rotate3D {
+      from { transform: rotateY(0deg); }
+      to { transform: rotateY(360deg); }
+    }
+  </style>
+</head>
+<body class="readonly">
+  
+  <!-- Logo 3D girando -->
+  <img src="Lotus.png.png" alt="Logo do Servidor" class="corner-img" />
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar" aria-label="Navegação de regras">
+    <button class="main-tab" id="main-tab-intro" aria-expanded="false">📜 Introdução</button>
+  
+
+    <button class="main-tab" id="main-tab-cidade" aria-expanded="false" aria-controls="subtabs-cidade">🏙️ Cidade ▲</button>
+    <div class="subtabs" id="subtabs-cidade" role="menu" aria-hidden="true"></div>
+     
+  </aside>
+
+    <!-- CONTEÚDO -->
+    <div class="container">
+      <header>
+        <div class="logo">⚡</div>
+        <div>
+          <h1>Bem-vindo ao Servidor!</h1>
+          <p class="subtitle">Leia atentasadmente antes de participar</p>
+        </div>
+      </header>
+
+
+       <!-- 1 CARD PARA INTRODUÇÃO -->
+      <div class="card">
+        <div class="tab-content" id="tab-content-intro"></div>
+      </div>
+
+
+  <!-- 10 CARDS PARA ROLEPLAY -->
+      <div id="cards-roleplay" style="display: none;">
+        <div class="card"><div class="tab-content"><h2>Roleplay</h2><p></p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É a interpretação de um personagem dentro do jogo, seguindo regras e limites para garantir a imersão. Anti-roleplay acontece quando alguém age contra essa imersão, prejudicando a experiência dos outros. Existem caminhos legais e ilegais no RP, e cada um define o estilo de jogo do personagem. A prioridade é sempre manter a narrativa fluida, evitando infrações que prejudiquem o desenvolvimento da história.</p></div></div>
+        <div class="card"><div class="tab-content"><h2>1.1 Roleplay</h2><p>significa interpretação de papeis. Consiste no ato de interpretar um papel, um personagem, um ser diferente do que é na vida real, normalmente utilizados em RPGs. Nos servidores de GTA isso significa interpretar um personagem criado por você mesmo, esse personagem é criado inteiro por você seguindo as limitações impostas pelas regras comuns e as do servidor. O importante é que seja realizado de forma responsável, respeitosa e conforme os valores e princípios de cada indivíduo.</p></div></div>
+        <div class="card"><div class="tab-content"><h2>Anti-roleplay </h2><p>Consiste basicamente em ir contra o roleplay conjunto, sair do seu personagem ou agir de maneira que não seria possível para seu personagem e acabar atrapalhando o roleplay de todos e até mesmo o seu. Existem diversas regras que consistem em práticas de anti-roleplay, como RDM, VDM e outras que você irá ver abaixo.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>O rumo do RP legal e ilegal consiste no caminho que seu personagem vai seguir dentro do roleplay, por exemplo: um personagem do ramo legal irá agir de maneira mais correta e justa aos olhos da sociedade, terá um emprego formal como enfermeiro, médico, mecânico, policial, advogado e semelhantes, já um personagem do ramo ilegal irá agir de maneira mais imprudente, viverá pelo crime, podendo ser um bandido, um mafioso, um traficante e semelhantes. Dentro do roleplay essas duas categorias definem muito um personagem, mas não os únicos caminhos possíveis, você pode ser facilmente alguém do mundo legal com tendências ilegais, agindo por corrupção ou apenas para auxiliar/ajudar um antigo amigo.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Jamais descartaremos uma proposta de roleplay diferente e imersiva por conta de uma quebra de regra que não impacta diretamente o desfecho da história. Nossa prioridade será sempre o RP, onde a experiência e a narrativa têm precedência. Infrações leves, como car parking, não comprometem a essência do roleplay. No entanto, práticas que afetam o desenvolvimento natural da narrativa, como metagaming, CL ou dark RP, serão tratadas com a devida seriedade, garantindo a integridade e a autenticidade da experiência para todos</p></div></div>
+      </div>
+
+      <!-- 10 CARDS PARA BÁSICAS -->
+      <div id="cards-basicas" style="display: none;">
+        <div class="card"><div class="tab-content"><h2>Básicas</h2><p></p></div></div>
+        <div class="card"><div class="tab-content"><h2>Branco</h2><p>No servidor, é essencial respeitar o roleplay e evitar qualquer atitude anti-RP. Comércio externo, abuso de bugs, Metagaming e desvio de itens são proibidos. Polícia, SAMU e facções têm regras específicas que devem ser seguidas. O não cumprimento pode resultar em punições severas, incluindo banimento permanente.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É proibido o RDM, VDM, Power Gaming, Metagaming, Combat Logging, Anti RP, Anti amor à vida, Cop Baiting, Dark RP, Revenge Kill, cheating, programas auxiliares de mira/mira externa, se beneficiar e/ou abusar de exploits, bugs, entre outros (passível de banimento permanente).</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Dentro do servidor, são permitidas farpas, mas apenas farpas saudáveis. Qualquer coisa que saia fora do roleplay será punida imediatamente.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Os jogadores devem sempre manter o respeito mútuo, logo você não pode sair do roleplay em nenhum momento e de nenhuma forma.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Qualquer forma de comércio, venda ou troca de contas de jogo, itens de jogo, moeda de jogo, bem como toda e qualquer transferência que for conduzida fora do jogo são estritamente proibidas.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É proibido qualquer forma de comércio, venda ou troca de veículo VIP, seja por dinheiro do próprio jogo ou dinheiro real.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É proibida a utilização do chat da polícia (/190), do hospital (/192) e do chat em si para realizar provocações e Metagaming.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É proibido falar ou se comunicar de alguma forma enquanto estiver desacordado/morto. </p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É estritamente proibido fake polícia, se passar por policial. Totalmente proibido utilizar vestimentas de quaisquer tipos de polícias, seja militar, civil e/ou rodoviária.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É estritamente proibido assumir a direção de qualquer veículo policial e/ou veículo do SAMU. Não é permitido pegar nenhum veículo policial/SAMU, mesmo que esteja destrancado. Apenas funcionários do SAMU e da polícia têm autorização para utilizarem seus respectivos veículos.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p></p></div>É estritamente proibido qualquer policial desviar armas da polícia para si ou para terceiros. Proibido pegar armas do baú e/ou do blip de armas da polícia para guardar em baú próprio ou de terceiros. Também é proibido vender e desviar armamentos, munições e itens provenientes da polícia.</div>
+        <div class="card"><div class="tab-content"><h2></h2><p></p></div>Totalmente proibido sair da polícia e levar consigo armamentos e equipamentos policiais. Devolva tudo antes de sair da polícia.</div>
+        <div class="card"><div class="tab-content"><h2></h2><p></p></div>Todo e qualquer membro de facção e/ou organização fica proibido de pegar itens do baú da própria facção e/ou organização sem a autorização do líder, com o intuito de prejudicar a mesma.</div>
+        <div class="card"><div class="tab-content"><h2></h2><p></p></div>Durante uma abordagem policial, assalto e/ou sequestro, você deve seguir o RP corretamente, sem cometer anti amor à vida e anti RP.</div>
+        <div class="card"><div class="tab-content"><h2></h2><p></p></div>🚨 É proibido o ato de entrar no veículo (qualquer veículo) de qualquer jogador, com a intenção de roubar o veículo (na vista do dono e/ou de outras pessoas) e/ou na intenção de forçar algum RP. 🚨</div>
+        <div class="card"><div class="tab-content"><h2></h2><p></p></div>🚨 É proibido se passar por membro de alguma facção e/ou organização caso não seja setado. 🚨</div>
+        <div class="card"><div class="tab-content"><h2></h2><p></p></div>Sempre que sair de qualquer profissão legal ou ilegal com setagem, você é obrigado a se esquecer automaticamente de todas as pessoas e tudo que era envolvido no RP da profissão.</div>
+        <div class="card"><div class="tab-content"><h2></h2><p></p></div>Toda e qualquer facção/organização que seja flagrada com metagaming em Discord próprio estará passível a fechamento sem aviso prévio.</div>
+        <div class="card"><div class="tab-content"><h2></h2><p></p></div>Quando a pessoa é pega roubando itens, seja em emprego legal ou ilegal, sem consentimento dos responsáveis ou donos do local, se encaixa em desvio de itens para benefício próprio (caixa dois), passível de banimento permanente sem direito de revogar a punição.</div>
+        <div class="card"><div class="tab-content"><h2></h2><p></p></div>🚨 É proibido o compartilhamento de contas dentro da cidade. Caso seja identificada tal infração, será passível de banimento permanente sem direito de revogar a punição. 🚨</div>
+        <div class="card"><div class="tab-content"><h2></h2><p></p></div>🚨 É proibido abusar de bugs da cidade, como duplicação de dinheiro, itens e afins. Caso seja identificada tal infração ou até mesmo comprovada a participação, será passível de banimento permanente sem direito de revogar a punição. 🚨</div>
+        <div class="card"><div class="tab-content"><h2></h2><p></p></div>Toda ação que envolva troca de tiro é obrigatória gravar qualquer kill que for feito in-game. Caso quem for morto por você ache suspeito, irá solicitar a gravação da kill e, se você não tiver, pode se considerar banido.</div>
+        <div class="card"><div class="tab-content"><h2></h2><p></p></div>Ao entrar em uma rua [ou local fechado] é liberado código 5 para ambos os lados.</div>
+        <div class="card"><div class="tab-content"><h2></h2><p></p></div>É proibido roubo ou furto de carros nas garagens da ilha.</div>
+        <div class="card"><div class="tab-content"><h2></h2><p></p></div>É proibido o uso da vassoura em ações seja dominação ou ação de rua.</div>
+      </div>
+
+      <!-- 10 CARDS PARA ÁREAS ZONAS -->
+      <div id="cards-areas-zonas" style="display: none;">
+        <div class="card"><div class="tab-content"><h2>Áreas e Zonas</h2><p></p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p></p></div>Nas áreas públicas e seguras, como praças e garagens, é proibido causar desordem ou interferir em ações policiais. Além disso, não é permitido fugir para essas áreas durante ações ou se envolver em agressões dentro delas.</div>
+        <div class="card"><div class="tab-content"><h2>Áreas seguras são</h2><p></p></div>Praça, bancos, farmácia, hospital, garagens, mecânicas, concessionária e todas as centrais de empregos legais.</div>
+        <div class="card"><div class="tab-content"><h2>Praça</h2><p>É um local com muitos civis, portanto, é proibido fazer baderna, cantar pneus, brincar de lutinha, entre outros comportamentos desordeiros.</p></div></div>
+        <div class="card"><div class="tab-content"><h2>Zona vermelha</h2><p>É considerado zona vermelha toda dominação, departamento de polícia, local de facção e etc.</p></div></div>
+        <div class="card"><div class="tab-content"><h2>Zona verde</h2><p>É considerado zona verde toda garagem, hospital, corpo de bombeiros, pier, praça e etc.</p></div></div>
+        <div class="card"><div class="tab-content"><h2>É estritamente proibido</h2>Correr para uma área segura durante uma ação com intenção de se safar da ação<p>Roubo ou furto nos locais de respawn.</p>Envolver-se em agressão em desentendimentos com outro jogador em uma zona segura</div>Interromper ou atrapalhar alguma abordagem policial ou fuga / Fazer baderna perto e/ou dentro de quaisquer áreas seguras</div>
+      </div>
+
+      <!-- 10 CARDS PARA VEÍCULOS -->
+      <div id="cards-veiculos" style="display: none;">
+        <div class="card"><div class="tab-content"><h2>Veículos</h2><p></p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É proibido participar de qualquer ação ilegal utilizando veículos destinados a empregos legais.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É proibido assaltar jogadores que estejam trabalhando em empregos legais, utilizando a roupa e o veículo associados a esses empregos.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É proibido desfazer ou alterar o tuning de veículos sem a autorização do proprietário.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É proibido o uso de veículos legais como barricadas em facções ou organizações.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Permitido uso de blindados apenas no NORTE.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É permitido o furto de veículos em áreas "safe" (seguras) apenas em casos de veículos destrancados.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Evite deixar seu veículo estacionado na garagem caso não vá utilizá-lo. Se possível, guarde-o no blip da garagem.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Antes de sair da cidade, certifique-se de guardar seu veículo no blip da garagem.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>A regulamentação sobre veículos se aplica apenas aos veículos associados a empregos legais.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Veículos de empregos legais devem ser retirados do blip exclusivamente para desempenhar as funções relacionadas ao emprego e ao veículo.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p> 🚨 É proibido o roubo de veículos em áreas "safe" utilizando lockpicks ou masterpicks. 🚨</p></div></div>
+      </div>
+
+      <!-- 10 CARDS PARA CHAT APPS -->
+      <div id="cards-chat-apps" style="display: none;">
+        <div class="card"><div class="tab-content"><h2>Chat Apps</h2><p></p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>O uso do chat no jogo e de aplicativos de celular, como Twitter, Instagram e OLX, deve ser restrito exclusivamente ao contexto do Roleplay (RP). Não é permitido sair do RP em nenhuma dessas plataformas.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É proibido fazer qualquer tipo de anúncio ou pergunta no chat ou nos aplicativos, como "alguém vendendo armas?", "alguém lavando?", "desmanche on?" ou mensagens semelhantes. Essas práticas são passíveis de punição, incluindo multas, prisão por meses, advertências e a possibilidade de abertura de investigações dentro do RP.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É proibido realizar postagens que envolvam pessoas reais ou que contenham conteúdo externo, explícito, provocativo ou impróprio.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É proibido o envio excessivo de mensagens no chat ou nos aplicativos, com o intuito de manter a fluidez e organização do ambiente de jogo.</p></div></div>
+      </div>
+
+      <!-- 10 CARDS PARA EMPREGOS LEGAIS -->
+      <div id="cards-empregos-legais" style="display: none;">
+        <div class="card"><div class="tab-content"><h2>Empregos Legais</h2><p></p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É estritamente proibido cometer qualquer crime em áreas ou locais relacionados a empregos legais.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É proibido utilizar veículos destinados a empregos legais para atividades fora do escopo de suas funções legais.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É proibido o porte de itens ilegais ao utilizar veículos de empregos legais.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>A venda e a distribuição de itens ilegais são proibidas nas áreas de empregos legais.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É proibido o uso de uniformes de empregos legais para a prática de ações ilegais.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É totalmente proibido o roubo e furto de veículos, pessoas ou itens de porta-malas em áreas de empregos legais, mesmo que o veículo esteja destrancado.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>O Uber pode ser assaltado sem restrições, pois não utiliza um veículo exclusivo para o exercício do emprego legal.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Qualquer prática ilegal é proibida no contexto de empregos legais, incluindo, mas não se limitando a, cobrança de "caixinha", roubos, assaltos e outras ações ilícitas.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Profissionais como mecânicos e médicos não podem ser alvos de agressões durante ou após o atendimento de emergência, seja na rua ou em ambiente externo. Caso esses profissionais sejam agredidos durante ou após o atendimento, poderá ser aplicada punição por RDM (Random Deathmatch), salvo em situações excepcionais, como quando o médico for militar e portar armamento visível, representando risco à segurança do local e das pessoas presentes.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Médicos devem sempre demonstrar bom senso ao utilizar uniforme e identificação, e só devem prestar atendimento a pessoas feridas após assegurar que a situação de risco no local tenha sido devidamente controlada e que a ação já tenha sido encerrada.</p></div></div>
+      </div>
+
+      <!-- 10 CARDS PARA BOM SENSO -->
+      <div id="cards-bom-senso" style="display: none;">
+        <div class="card"><div class="tab-content"><h2>Bom Senso</h2><p></p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Antes de agir, reflita se você realmente tomaria a mesma atitude na vida real.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Lembre-se de que toda ação tem uma reação. Nem todo Roleplay (RP) sairá como planejado. Saiba conduzir suas ações com cautela e dentro do contexto do RP.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Quando estiver morto, é importante lembrar que você não deve se recordar de nada relacionado ao que ocorreu durante a interação com as pessoas envolvidas no mesmo RP. Após ser reanimado, é permitido recordar os eventos.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É proibido o uso de máscaras e roupas da STAFF, a menos que você faça parte da equipe.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É estritamente proibido roubar, furtar ou assaltar jogadores que estejam trabalhando em empregos temporários legais. Esta regra aplica-se apenas nos casos em que o jogador esteja utilizando o uniforme e veículo corretos do respectivo emprego legal.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É proibido colocar músicas e/ou sons em volume alto, realizar "drifts" ou cantar pneus com veículos, e colocar música em ambientes públicos, como a Praça, o Hospital e os Departamentos de Polícia. Isso será considerado poluição sonora. Música só é permitida na Praça, desde que não cause incômodo a outros jogadores.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É proibido ficar AFK (Away From Keyboard) enquanto recebe ou farmando salário de um emprego legal, como por exemplo, SAMU, mecânico, policial e advogado.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É proibido utilizar o helicóptero em áreas civis de forma a colocar em risco a vida das pessoas. Além disso, é proibido pousar helicópteros na Praça ou em vias públicas, exceto para helicópteros da Polícia ou SAMU. Também é proibido sobrevoar a Praça de forma intencional.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É estritamente proibido sair do RP por qualquer motivo. O uso de expressões como "estou gravando", "está tudo gravado" (no contexto de denunciar alguém à STAFF), advertências, VDM, RDM, Power Gaming, ADM, Staff, ID ou qualquer outra palavra que fuja do contexto ou da imersão do RP está igualmente proibido.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Evite comportamentos tóxicos, tanto dentro quanto fora do RP. Comportamentos tóxicos incluem ações ou atitudes destinadas a menosprezar os outros jogadores.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É proibido iniciar qualquer ação após o anúncio de um "RR" (aviso de que o servidor será reiniciado).</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É permitido solicitar QRR (Qualificação de Resposta Rápida) em ações de "pista", porém, o QRR deve ser registrado e solicitado por meio de rádio da cidade. Caso não seja realizado o devido registro, será considerado meta-gaming.</p></div></div>
+        <div class="card"><div class="tab-content"><h2>A reação a um assalto é permitida nas seguintes situações</h2>1x1<p>2x2, 2x3</p>3x3, 3x4...</div>Ou seja, o número de "vítimas" pode ter uma diferença de, no máximo, 1, exceto em casos de um confronto 2x1, o qual não será permitido e será considerado uma violação dos princípios de "anti-amor à vida".</div>
+        <div class="card"><div class="tab-content"><h2></h2><p>A solicitação de QRR é permitida apenas para um máximo de quatro pessoas. Em caso de desenvolvimento de uma ação de maior proporção, será autorizado solicitar QRR.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>O número máximo de pessoas permitido para dar voz de assalto é de quatro. Não é permitido realizar a ação de assalto com mais de quatro pessoas. O QRR pode ser solicitado a uma distância de até três quadras.</p></div></div>
+      </div>
+
+      <!-- 10 CARDS PARA ANTI-RP -->
+      <div id="cards-anti-rp" style="display: none;">
+        <div class="card"><div class="tab-content"><h2>Anti-Rp</h2><p></p></div></div>
+        <div class="card"><div class="tab-content"><h2>Amor à Vida</h2><p>Refere-se à preocupação com a vida do seu personagem; assim como na vida real, seu personagem deve temer pela própria vida, evitando situações que desafiem a morte e o coloquem em perigo; a falta de "Amor à Vida" resultará em punições graves, podendo incluir a perda de todos os seus pertences, como ID, itens doados como VIPs e carros, entre outros.</p></div></div>
+        <div class="card"><div class="tab-content"><h2>RDM</h2><p>É o ato de matar alguém sem qualquer motivo ou desenvolvimento de roleplay; é matar alguém sem razão ou apenas pelo desejo de matar.</p></div></div>
+        <div class="card"><div class="tab-content"><h2>VDM</h2><p>É o uso de veículos do jogo como arma para matar ou ferir alguém de propósito; isso inclui colisões, "ratão", "pit", capotagens intencionais e outras ações similares.</p></div></div>
+        <div class="card"><div class="tab-content"><h2>[CL] Combat Logging</h2><p>É o ato de sair ou desconectar durante o roleplay ou combate de forma ilegítima, com o objetivo de evitar uma situação desfavorável, como um assalto, sequestro, abordagem policial ou fuga; em caso de crash durante uma ação em andamento, o jogador deve retornar ao servidor e se reintegrar à ação imediatamente; sair do jogo enquanto morto e pedir ajuda ao retornar também é considerado Combat Logging e Metagaming; em caso de travamento inesperado do jogo, é crucial gravar um vídeo imediatamente e retornar ao jogo o mais rápido possível, pois capturas de tela não serão aceitas como evidência em denúncias.</p></div></div>
+        <div class="card"><div class="tab-content"><h2>Metagaming</h2><p>É a utilização de informações descobertas por meios externos (fora do roleplay), no jogo, seja para obtenção de vantagem/benefício ao seu personagem ou qualquer informação que prejudique outro jogador, sem que previamente tenha existido um roleplay; tudo que não foi visto ou repassado ao seu personagem enquanto em RP também poderá se enquadrar em metagaming; a comunicação deverá ser feita totalmente dentro do jogo, utilizando rádio ou celular; comunicar por outro meio que não envolva a cidade é proibido.</p></div></div>
+        <div class="card"><div class="tab-content"><h2>Powergaming </h2><p>É o uso de mecânicas do jogo que não seriam possíveis na vida real; é permitido o uso de escadas, rampas e saltos com veículos, desde que se trate de powergaming leve, como rampar de uma pista para outra com pouca diferença de altura, subir em montanhas com veículos baixos e esportivos, ou subir e descer escadas; em caso de capotamento ou colisão aérea que resulte na avaria de três ou mais pneus do veículo, é obrigatória uma parada imediata; não é permitido sair do veículo para trocar tiros após capotar, pois você acaba se ferindo e não tem condições de realizar ações que faria enquanto está em sã consciência.</p></div></div>
+        <div class="card"><div class="tab-content"><h2>Car Parking</h2><p>É a prática de usar um veículo para prejudicar outros jogadores de forma intencional. Isso inclui estacionar sobre alguém, pular de um veículo para causar dano ou bloquear acessos importantes. </p></div></div>
+        <div class="card"><div class="tab-content"><h2>ARRUMAR VERMELHO</h2><p>Estacionar um veículo intencionalmente sobre outro jogador é proibido.</p>Saltar de um veículo em movimento com a intenção de causar dano a outro jogador, seja por morte ou colisão, é estritamente proibido.</div>É proibido bloquear entradas e saídas de portas, como as de bancos, lojas de conveniência, lojas de roupas e outros locais.</div>
+      </div>
+
+      <!-- 10 CARDS PARA DISCORD -->
+      <div id="cards-discord" style="display: none;">
+        <div class="card"><div class="tab-content"><h2>Discord</h2><p></p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Se você sair do servidor do Discord por qualquer motivo, será automaticamente banido da cidade sem aviso prévio. No entanto, se retornar ao Discord, há a possibilidade de que o banimento seja removido, substituindo-o por uma advertência.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>WHITELIST - O nome e sobrenome do seu personagem devem coincidir com os dados fornecidos na whitelist, tanto no jogo quanto no Discord do servidor.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É proibido usar o Discord para fazer chamadas privadas com outras pessoas que estejam online no servidor junto com você. O descumprimento dessa regra será considerado metagaming.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É estritamente proibido divulgar outros servidores, seja no Discord ou diretamente para os membros da cidade. Isso inclui servidores de FiveM ou qualquer outro tipo. Se alguém for pego convidando jogadores da comunidade para outros servidores, tanto o infrator quanto os envolvidos serão banidos permanentemente, sem possibilidade de revisão.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É terminantemente proibido usar linguagem ofensiva, grosseira, racismo, publicação de material abusivo ou qualquer forma de incitação ao ódio. Qualquer violação resultará em punição.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Discurso de ódio, insultos, assédio, nudez, bullying, conteúdo pornográfico e violento são absolutamente proibidos.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Dentro do Discord, não será tolerado nenhum tipo de comportamento tóxico. Problemas pessoais fora do roleplay não devem ser levados para dentro do jogo, e vice-versa.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É proibido utilizar os canais destinados a relatar bugs, fazer perguntas, dar sugestões, entre outros, para fins não relacionados ao seu propósito inicial.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Evite contatar a equipe de moderação em privado por motivos triviais. Utilize os canais apropriados no Discord sempre que possível. Se precisar entrar em contato com um membro da equipe em privado, mantenha sempre o respeito. O desrespeito ou uso de linguagem ofensiva, tanto dentro quanto fora do jogo, resultará em punição.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Evite mencionar outras pessoas (@...) a menos que seja realmente necessário. Não perturbe os outros para assuntos ou problemas pessoais.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p></p>Qualquer cidadão que faltar com respeito ou ofender outro membro no Discord, seja através de mensagens privadas, chat geral, chat de dúvidas, clipes, etc., estará sujeito à análise e punição por parte da equipe de moderação.</div></div>      
+      </div>
+
+      <!-- 10 CARDS PARA PERSONAGEM -->
+      <div id="cards-personagem" style="display: none;">
+        <div class="card"><div class="tab-content"><h2>Personagem</h2><p></p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É proibido qualquer nome e/ou sobrenome que envolva marca, duplo sentido, que tenham conotação sexual, preconceito e/ou que fuja da realidade. O nome do personagem deve condizer com a realidade. Caso quebre essa regra, está sujeito à advertência ou ban permanente do servidor.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É estritamente proibido criar personagem baseado em pessoas que entraram negativamente para a história da humanidade. Exemplos: Adolf Hitler, Josef Stalin, Saddam Hussein, Osama Bin Laden, entre outros. Caso crie, imite ou faça algum RP que associe seu personagem diretamente e/ou indiretamente a algum dos exemplos citados, será banido permanentemente do servidor.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É proibida a criação de personagem com características perturbadoras, assustadoras e/ou que fogem da realidade e do Roleplay. Não crie personagens com características que possam trazer arrependimento futuramente. Personagens com traços de jogador troll serão banidos permanentemente do servidor sem aviso prévio.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É proibido circular pela cidade com o personagem sem pernas, mãos flutuando sem que tenha braços, sem pescoço e/ou sem barriga. É proibido o uso de roupas transparentes. Permitido ficar sem mãos e/ou sem braços somente se o seu personagem for de fato aleijado e tenha uma história condizente para comprovar a falta dos membros superiores.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É proibido se fantasiar e fazer RP de coisas que fogem da realidade do Roleplay, como alienígena, RP de hambúrguer, RP de homem e/ou mulher invisível, entre outros.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É proibido usar 2 contas ou mais para jogar em nossa cidade (duas contas do FiveM). Caso tenha, as 2 serão banidas.</p></div></div>
+      </div>
+
+       <div id="cards-personagem" style="display: none;">
+        <div class="card"><div class="tab-content"><h2>Personagem</h2><p></p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É proibido qualquer nome e/ou sobrenome que envolva marca, duplo sentido, que tenham conotação sexual, preconceito e/ou que fuja da realidade. O nome do personagem deve condizer com a realidade. Caso quebre essa regra, está sujeito à advertência ou ban permanente do servidor.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É estritamente proibido criar personagem baseado em pessoas que entraram negativamente para a história da humanidade. Exemplos: Adolf Hitler, Josef Stalin, Saddam Hussein, Osama Bin Laden, entre outros. Caso crie, imite ou faça algum RP que associe seu personagem diretamente e/ou indiretamente a algum dos exemplos citados, será banido permanentemente do servidor.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É proibida a criação de personagem com características perturbadoras, assustadoras e/ou que fogem da realidade e do Roleplay. Não crie personagens com características que possam trazer arrependimento futuramente. Personagens com traços de jogador troll serão banidos permanentemente do servidor sem aviso prévio.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É proibido circular pela cidade com o personagem sem pernas, mãos flutuando sem que tenha braços, sem pescoço e/ou sem barriga. É proibido o uso de roupas transparentes. Permitido ficar sem mãos e/ou sem braços somente se o seu personagem for de fato aleijado e tenha uma história condizente para comprovar a falta dos membros superiores.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É proibido se fantasiar e fazer RP de coisas que fogem da realidade do Roleplay, como alienígena, RP de hambúrguer, RP de homem e/ou mulher invisível, entre outros.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É proibido usar 2 contas ou mais para jogar em nossa cidade (duas contas do FiveM). Caso tenha, as 2 serão banidas.</p></div></div>
+      </div>
+
+            <div id="cards-dark-rp" style="display: none;">
+        <div class="card"><div class="tab-content"><h2>Dark RP</h2><p></p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Atos de abuso como animações de sexo sem consentimento, estupro, preconceito, racismo, tortura, abuso com armas de choque e palavras ofensivas são estritamente proibidos. Todos devem garantir que as interações sejam respeitosas e consensuais. A violação dessas regras resultará em punições severas.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Atos de abuso são estritamente proibidos no servidor, incluindo, mas não se limitando a: Animações de sexo sem o consentimento da outra pessoa, Estrupo, Preconceito, racismo, Tortura, Abuso com armas de choque.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Palavras ofensivas e/ou com duplo sentido e tom ofensivo são proibidas (quando utilizadas como forma de ofensa). Isso inclui, mas não se limita a: viado, bicha, baitola, nego, preto, macaco, bichinha, boiola.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Todos os jogadores devem respeitar os limites dos outros e garantir que todas as interações sejam consensuais.</p></div></div>
+      </div>
+
+      <div id="cards-revenge-kill" style="display: none;">
+        <div class="card"><div class="tab-content"><h2>Revenge Kill</h2><p></p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Revenge kill, que é voltar ao local onde morreu para se vingar ou continuar a ação, é estritamente proibido. Também é proibido lembrar do rosto de quem o matou e buscar vingança, ou passar informações para amigos. Qualquer ato de revenge kill resultará em punições.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Revenge kill é o ato de voltar ao mesmo local onde morreu com o intuito de se vingar ou dar continuidade à ação em que já havia sido morto.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É proibido lembrar do rosto de quem o matou e ir atrás dessa pessoa para se vingar.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É proibido passar informações sobre quem o matou para amigos irem executá-lo.</p></div></div>
+      </div>
+
+      <div id="cards-cop-baiting" style="display: none;">
+        <div class="card"><div class="tab-content"><h2>Cop Baiting</h2><p></p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Cop baiting é estritamente proibido no servidor, incluindo qualquer atitude destinada a enganar ou emboscar alguém para benefício próprio. Isso inclui fazer chamados para trabalhos legais com a intenção de assaltar ou matar, provocar a polícia para emboscadas, ou criar armadilhas para matar ladrões de veículos. Também é proibido atrair membros para locais de emboscadas, levando a perseguições para posições vantajosas com o intuito de atacar. Ações de cop baiting serão punidas severamente.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Cop baiting é qualquer atitude destinada a enganar, trapacear ou emboscar alguém de forma desonesta e desonrosa, visando apenas o benefício próprio.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É proibido fazer chamados para trabalhos legais com o intuito de assaltar, sequestrar ou matar.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É proibido provocar a polícia com a intenção de levá-la a algum local para realizar uma emboscada.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É proibido fazer anúncios de compra ou venda de algo com o intuito de roubar ou matar.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É totalmente proibido qualquer ato de cop baiting dentro do servidor.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É proibido criar emboscadas para matar ladrões de veículos, como atrair para locais onde aliados estão escondidos (em matos, paredes, deitados, etc.) com a intenção de matar ou surpreender o inimigo.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Em casos de perseguição, só é considerado cop baiting quando os bandidos levam a perseguição para um local onde foi solicitado que seus membros esperem a polícia, com a intenção de matá-los, se beneficiando do fato de estarem posicionados para alvejar os policiais.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Não será considerado cop baiting caso os bandidos venham de encontro com a polícia e iniciem a trocação (becos, estacionamentos e locais fechados ainda são considerados cop baiting).</p></div></div>
+      </div>
+
+      <div id="cards-sequestros" style="display: none;">
+        <div class="card"><div class="tab-content"><h2>Sequestros</h2><p></p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Sequestro só pode ocorrer com no mínimo o dobro de sequestradores. Resgates variam entre 500 mil e 5 milhões. Após o pagamento, não pode haver tiroteio. Sequestradores devem esconder identidade e rosto.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>O sequestro só pode ser realizado caso o número de sequestradores seja, no mínimo, o dobro do número de sequestrados, com um máximo de 4 sequestrados.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Caso os sequestrados colaborem, não é permitido revistá-los ou roubá-los. Todos os pertences devem permanecer sequestrados. Se houver reação após o sequestro, caracterizando anti-amor à vida, o jogador será punido por quebra de regra em ação/anti-amor à vida.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>No caso de sequestro de membros de organizações legais ou ilegais, cargos inferiores podem ter um resgate de até 500 mil, enquanto cargos superiores podem ter um resgate de até 5 milhões.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>No caso de líderes de organizações, é permitido negociar termos que possam ser utilizados no RP posteriormente, como queima de arquivo, encerramento de atividades por um tempo determinado, entrega de itens diversos, entre outras possibilidades.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>O pagamento do resgate deve ser feito "face a face", podendo ser realizado via celular ou por item.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>No momento do pagamento, a organização do sequestrado pode tentar armar uma emboscada. No entanto, se o sequestrado for morto durante a tentativa, a organização deverá ceder 20% do seu armazém/craft.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Após o pagamento do resgate, nenhuma troca de tiros pode ocorrer. Caso alguma organização inicie um confronto, será severamente punida.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Os sequestradores são obrigados a ocultar sua identidade, organização e rosto. Caso isso não seja respeitado, a organização do sequestrado pode realizar uma vingança dentro do RP posteriormente.</p></div></div>
+      </div>
+
+
+      <div id="cards-residências" style="display: none;">
+        <div class="card"><div class="tab-content"><h2>Residências</h2><p></p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>A STAFF não se responsabiliza por perdas de armamentos dentro da casa. O IPTU é cobrado a cada 15 dias; não pagar resulta na venda da casa sem reembolso. Casas são privadas e o dono pode abater quem invadir. Morrer na casa de outra pessoa não é considerado RDM.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>A STAFF não se responsabiliza por perdas de armamentos equipados ou desequipados dentro do sistema de casa.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>O pagamento de IPTU é cobrado a cada 15 dias. Caso não seja pago, a casa será vendida sem direito ao reembolso.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Lembre-se sempre de pagar o IPTU da casa. Para verificar, use o comando: /home iptu ID_DA_CASA (Para pegar o ID da casa, use: /home list).</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Não realizamos reembolso de casas, seja por insatisfação com a casa ou por falta de pagamento do IPTU.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>A casa é considerada um local privado. O dono da propriedade ou quem possui a chave do local pode abater qualquer cidadão que invada a residência, com direito de proteger sua propriedade privada.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>(Caso alguém morra na residência de outra pessoa, não será considerado RDM, pois se trata de invasão a uma propriedade privada).</p></div></div>
+      </div>
+
+
+      <div id="cards-horários" style="display: none;">
+        <div class="card"><div class="tab-content"><h2>Horários</h2><p></p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Prestem atenção nos horários para não sofrerem punições in-game.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Horário de sequestro: 19:00 às 00:00.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Horário de assalto no sul: 00:00 às 03:00.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Horário de assalto no norte: 05:00 às 10:00.</p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>Horário de assalto na ilha: 10:00 às 12:00.</p></div></div>
+      </div>
+
+      <div id="cards-tabelas" style="display: none;">
+        <div class="card"><div class="tab-content"><h2>Tabelas</h2><p></p></div></div>
+        <div class="card"><div class="tab-content"><h2></h2><p>É proibido vender itens fora da tabela de preços oficial da BRASIL ROLEPLAY. Negociações irregulares podem levar a punições, como advertências, suspensões ou banimento. Consulte sempre a tabela de preços vigente para garantir uma economia equilibrada e uma experiência justa para todos os jogadores.</p></div></div>
+      </div>
+
+
+            <!-- FOOTER: COLOQUE APENAS UMA VEZ, AQUI -->
+      <footer>
+        <p>&copy; 2025 Servidor RP — Todos os direitos reservados.</p>
+        <div class="controls">
+          <a href="#" class="btn" onclick="window.print()">Imprimir Regras</a>
+        </div>
+      </footer>
+
+    </div> <!-- fecha .container -->
+
+  <!-- SCRIPT -->
+   
+  <script>
+  
+   const introducao = {
+      title: "Bem-vindo ao Servidor!",
+      text: `
+Nós, como comunidade, temos o orgulho de sermos uma cidade diversa, acolhedora e inclusiva, onde cada indivíduo é valorizado e respeitado por sua singularidade. Hoje, gostaríamos de reforçar os valores fundamentais que guiam a nossa cidade e que tornam este lugar tão especial para todos nós. Aqui, todos devem se sentir seguros, respeitados e amparados, independentemente de sua origem, orientação sexual, identidade de gênero, raça, etnia, religião ou condição física. A diversidade é a nossa força e enriquece cada aspecto de nossa sociedade.
+
+Nós não toleramos nenhum tipo de atitude preconceituosa, seja ela transfobia, homofobia, racismo, capacitismo ou qualquer outro discurso que diminua ou oprima qualquer grupo social ou quaisquer atos que promovam o ódio, a discriminação ou a desigualdade entre os players dentro e fora do servidor. Fazemos questão de deixar claro que qualquer indivíduo que se envolver em atitudes preconceituosas ou que promovam o ódio será sujeito a banimento irreversível de nossa cidade. Nossa intenção é assegurar um ambiente onde o respeito, a empatia e a igualdade.
+
+Temos o dever de construir uma sociedade justa, respeitosa e acolhedora, onde todas as pessoas possam se sentir seguras e respeitadas em sua identidade e individualidade.
+
+Nossa cidade é um espaço onde a igualdade de direitos e a liberdade de expressão são fundamentais, mas esses valores não devem jamais ser usados como justificativa para propagar qualquer discurso de intolerância. Queremos deixar claro que repudiamos veementemente tais comportamentos.
+
+Contamos com a colaboração e o comprometimento de cada um de vocês para manter a essência acolhedora e inclusiva.
+
+Atenciosamente, Diretoria da LOTUS ROLEPLAY.`
+    };
+
+    const regrasCidade = [
+      {title: "Roleplay", id: "roleplay"},
+      {title: "Básicas", id: "basicas"},
+      {title: "Áreas Zonas", id: "areas-zonas"},
+      {title: "Veículos", id: "veiculos"},
+      {title: "Chat Apps", id: "chat-apps"},
+      {title: "Empregos Legais", id: "empregos-legais"},
+      {title: "Bom Senso", id: "bom-senso"},
+      {title: "Anti-Rp", id: "anti-rp"},
+      {title: "Discord", id: "discord"},
+      {title: "Personagem", id: "personagem"},
+      {title: "Dark RP", id: "dark-rp"},
+      {title: "Revenge Kill", id: "revenge-kill"},
+      {title: "Cop Baiting", id: "cop-baiting"},
+      {title: "Sequestros", id: "sequestros"},
+      {title: "Residências", id: "residências"},
+      {title: "Horários", id: "horários"},
+      {title: "Tabelas", id: "tabelas"}
+    ];
+
+    // ===== FUNÇÃO PARA CRIAR ABAS =====
+    function criarAbas(id, lista) {
+      const container = document.getElementById(id);
+      lista.forEach((r, i) => {
+        const btn = document.createElement("button");
+        btn.className = "sidebar-tab";
+        btn.textContent = `${i + 1}. ${r.title}`;
+        btn.onclick = () => mostrarCards(r.id);
+        container.appendChild(btn);
+      });
+    }
+
+    criarAbas("subtabs-cidade", regrasCidade);
+
+    // ===== FUNÇÃO PARA MOSTRAR 10 CARDS =====
+    function mostrarCards(tipo) {
+      // Esconde todos os divs de cards
+      document.querySelectorAll("[id^='cards-']").forEach(el => {
+        el.style.display = "none";
+      });
+
+      // Mostra o div correto
+      const cardsDiv = document.getElementById(`cards-${tipo}`);
+      if (cardsDiv) {
+        cardsDiv.style.display = "block";
+      }
+
+      // Marca o botão como ativo
+      document.querySelectorAll(".sidebar-tab").forEach(b => b.classList.remove("active"));
+      event.target.classList.add("active");
+    }
+
+    // ===== MOSTRAR INTRODUÇÃO POR PADRÃO =====
+    const cardIntro = document.getElementById("tab-content-intro");
+    if (cardIntro) {
+      cardIntro.innerHTML = `<h2>${introducao.title}</h2><p>${introducao.text}</p>`;
+      cardIntro.style.display = "block";
+    }
+
+    // ===== BOTÃO INTRODUÇÃO =====
+    document.getElementById("main-tab-intro").addEventListener("click", () => {
+      document.querySelectorAll("[id^='cards-']").forEach(el => {
+        el.style.display = "none";
+      });
+      cardIntro.style.display = "block";
+      document.querySelectorAll(".sidebar-tab").forEach(b => b.classList.remove("active"));
+    });
+
+    // ===== ABRIR/FECHAR MENUS =====
+    function abrirAba(btn, subtabsId) {
+      const subtabs = document.getElementById(subtabsId);
+      const aberto = subtabs.classList.toggle("open");
+      btn.innerText = aberto
+        ? btn.innerText.replace("▼", "▲")
+        : btn.innerText.replace("▲", "▼");
+    }
+
+    document.getElementById("main-tab-cidade").addEventListener("click", (e) => abrirAba(e.target, "subtabs-cidade"));
+  </script>
+  <!-- BOTÕES DO TOPO DIREITO -->
+<div class="top-buttons">
+  <button class="top-btn red" onclick="window.open('https://discord.gg/tUaZXmputE', '_blank')">🎧 Discord Cidade</button>
+  <button class="top-btn orange" onclick="window.open('https://discord.gg/qUNDk4Ep', '_blank')">🌐 Discord Ilegal</button>
+  <button class="top-btn orange" onclick="window.open('https://discord.gg/hpCgxmdx', '_blank')">🌐 Discord Policia</button>
+  <button class="top-btn green" onclick="window.location.href='painel.ilegal.html'">☠️ Regras Ilegal</button>
+  <button class="top-btn green" onclick="window.location.href='painel.html'">👮 Regras Policia</button>
+</div>
+<script src="menu.js"></script>
+
+
+</body>
+</html>

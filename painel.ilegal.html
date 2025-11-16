@@ -125,33 +125,26 @@
 
     <!-- Botão que mostra a imagem -->
 <button class="main-tab" id="main-tab-codigos" aria-expanded="false" aria-controls="subtabs-codigos">
-📞 Códigos de Patrulha
+ 📋 Tabelas
 </button>
 
-<!-- Sub-aba contendo apenas a imagem -->
-<div class="subtabs" id="subtabs-codigos" role="menu" aria-hidden="true">
-    <button id="abrirImagem" class="open-image-btn">Mostrar Tabela</button>
+<!-- SUB-ABAS DE IMAGENS -->
+<div class="subtabs" id="subtabs-imagens" role="menu">
+
+    <button class="open-image-btn" data-img="img1.png">Imagem 1</button>
+    <button class="open-image-btn" data-img="img2.png">Imagem 2</button>
+    <button class="open-image-btn" data-img="img3.png">Imagem 3</button>
+    <button class="open-image-btn" data-img="img4.png">Imagem 4</button>
+    <button class="open-image-btn" data-img="img5.png">Imagem 5</button>
+
 </div>
 
-<!-- MODAL DA IMAGEM GRANDE -->
+<!-- MODAL (o mesmo que você já usa) -->
 <div id="modalImagem" class="modal">
     <span class="fechar">&times;</span>
-    <img class="modal-conteudo" src="tabela.pm.png" id="imagemAmpliada">
+    <img class="modal-conteudo" id="imagemAmpliada">
 </div>
 
-<!-- Sub-aba contendo apenas a imagem -->
-<div class="subtabs" id="subtabs-codigos" role="menu" aria-hidden="true">
-    <button id="abrirImagem" class="open-image-btn">Mostrar Tabela</button>
-</div>
-
-<!-- MODAL DA IMAGEM GRANDE -->
-<div id="modalImagem" class="modal">
-    <span class="fechar">&times;</span>
-    <img class="modal-conteudo" src="tabela.pm.png" id="imagemAmpliada">
-</div>
-
-
-    
      
   </aside>
 
@@ -407,9 +400,9 @@ document.getElementById("main-tab-codigos").addEventListener("click", function (
   const aberto = subtabs.classList.toggle("open");
 
   if (aberto) {
-    this.innerText = "📞 Códigos de Patrulha";
+    this.innerText = "📋 Tabelas";
   } else {
-    this.innerText = "📞 Códigos de Patrulha";
+    this.innerText = "📋 Tabelas";
   }
 });
 

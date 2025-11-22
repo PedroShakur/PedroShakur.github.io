@@ -17,17 +17,4 @@ function searchSite() {
    console.log("Pesquisando...");
 }
 
-// Abrir imagens diferentes
-document.querySelectorAll(".open-image-btn").forEach(btn => {
-    btn.addEventListener("click", () => {
-        let img = btn.getAttribute("data-img");
-        document.getElementById("imagemAmpliada").src = img;
-        document.getElementById("modalImagem").style.display = "block";
-    });
-});
-
-// Fechar modal
-document.querySelector(".fechar").onclick = function () {
-    document.getElementById("modalImagem").style.display = "none";
-};
 

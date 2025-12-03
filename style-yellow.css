@@ -326,42 +326,52 @@ footer .btn:hover {
     opacity: 100;
     max-height: 500px; /* pode aumentar se quiser */
 }
-/* ======= CONFIGURAÇÃO MOBILE ======= */
+/* ============================
+   MOBILE (TELA MENOR QUE 768PX)
+   ============================ */
 @media (max-width: 768px) {
 
-  /* Menu lateral vira bloco em cima */
-  .sidebar, #left-menu, .menu-lateral {
-    width: 100%;
-    position: relative;
+  /* Remove o layout fixo lateral */
+  .sidebar,
+  #sidebar,
+  #left-menu,
+  .menu-lateral {
+    width: 100% !important;
+    position: relative !important;
+    height: auto !important;
+    left: 0 !important;
+    top: 0 !important;
   }
 
-  /* Botões do menu */
+  /* Botões ficam do tamanho da tela */
   .sidebar button,
-  #left-menu button {
-    width: 100%;
-    margin-bottom: 6px;
+  #left-menu button,
+  .menu-lateral button {
+    width: 100% !important;
+    margin-bottom: 8px;
+    font-size: 1rem !important;
   }
 
-  /* Conteúdo principal ocupa a tela toda */
-  .content, #main, .main-content {
-    width: 100%;
-    margin-left: 0;
-    padding: 15px;
+  /* Conteúdo ocupa a tela toda */
+  #content,
+  .content,
+  .main,
+  .main-content {
+    width: 100% !important;
+    margin-left: 0 !important;
+    padding: 15px !important;
   }
 
-  /* Ajusta textos grandes */
-  h1, h2, h3 {
-    text-align: center;
-    font-size: 1.3rem;
+  /* Evita zoom gigante do iPhone */
+  body {
+    zoom: 1 !important;
   }
 
-  /* Evita que o texto saia da tela */
-  p, li {
-    font-size: 0.95rem;
-  }
-
-  /* Caixa central do conteúdo */
-  .box, .card, .content-box {
+  /* Se tiver container central */
+  .box,
+  .card,
+  .container,
+  .content-box {
     width: 100% !important;
   }
 }

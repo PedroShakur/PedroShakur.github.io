@@ -326,3 +326,42 @@ footer .btn:hover {
     opacity: 100;
     max-height: 500px; /* pode aumentar se quiser */
 }
+/* ======= CONFIGURAÇÃO MOBILE ======= */
+@media (max-width: 768px) {
+
+  /* Menu lateral vira bloco em cima */
+  .sidebar, #left-menu, .menu-lateral {
+    width: 100%;
+    position: relative;
+  }
+
+  /* Botões do menu */
+  .sidebar button,
+  #left-menu button {
+    width: 100%;
+    margin-bottom: 6px;
+  }
+
+  /* Conteúdo principal ocupa a tela toda */
+  .content, #main, .main-content {
+    width: 100%;
+    margin-left: 0;
+    padding: 15px;
+  }
+
+  /* Ajusta textos grandes */
+  h1, h2, h3 {
+    text-align: center;
+    font-size: 1.3rem;
+  }
+
+  /* Evita que o texto saia da tela */
+  p, li {
+    font-size: 0.95rem;
+  }
+
+  /* Caixa central do conteúdo */
+  .box, .card, .content-box {
+    width: 100% !important;
+  }
+}
